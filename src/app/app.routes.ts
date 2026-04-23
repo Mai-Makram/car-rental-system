@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
+import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layout.component';
+import { CarListComponent } from './features/customer/car-list/car-list.component';
 
 export const routes: Routes = [
   {
@@ -11,6 +13,14 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent }
+    ]
+  },
+  {
+    path: 'customer',
+    component: CustomerLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'cars', pathMatch: 'full' },
+      { path: 'cars', component: CarListComponent }
     ]
   }
 ];
