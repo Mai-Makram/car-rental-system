@@ -20,8 +20,8 @@ export class AuthService {
     );
   }
 
-  register(userData: any): Observable<any> {
-    return this.apiService.post('auth/register', userData);
+  registerCustomer(userData: any): Observable<any> {
+    return this.apiService.post('customer/register', userData);
   }
 
   logout(): void {
