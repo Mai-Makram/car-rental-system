@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CustomerDataService } from '../services/customer-data.service';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-car-list',
@@ -21,6 +21,9 @@ export class CarListComponent implements OnInit {
   totalPages = signal<number>(1);
   totalItems = signal<number>(0);
   searchQuery = signal<string>('');
+  brandFilter = signal<string>('');
+  minPrice = signal<string>('');
+  maxPrice = signal<string>('');
   perPage = 15;
 
   // للتحكم في سرعة الطلبات عند الكتابة (Debounce)
@@ -29,7 +32,7 @@ export class CarListComponent implements OnInit {
   ngOnInit(): void {
     this.loadCars();
 
-    // إعداد الـ Debounce للبحث
+    // إعداد الـ Debounce للبحث والفلترة
     this.filterSubject.pipe(
       debounceTime(500)
     ).subscribe(() => {
@@ -40,14 +43,24 @@ export class CarListComponent implements OnInit {
   loadCars(page: number = 1): void {
     this.isLoading.set(true);
     
-    console.log('Sending Search Request:', {
+    console.log('Sending Request:', {
       page,
-      search: this.searchQuery()
+      search: this.searchQuery(),
+      brand: this.brandFilter(),
+      min: this.minPrice(),
+      max: this.maxPrice()
     });
 
-    this.customerService.getCars(page, this.perPage, this.searchQuery()).subscribe({
+    this.customerService.getCars(
+      page, 
+      this.perPage, 
+      this.searchQuery(), 
+      this.brandFilter(),
+      this.minPrice(),
+      this.maxPrice()
+    ).subscribe({
       next: (response) => {
-        console.log("response",response);
+        console.log('API Response:', response);
         this.cars.set(response.data || response); 
         this.currentPage.set(page);
         
@@ -73,13 +86,27 @@ export class CarListComponent implements OnInit {
     this.filterSubject.next();
   }
 
+  onBrandFilterChange(event: any): void {
+    this.brandFilter.set(event.target.value);
+    this.filterSubject.next();
+  }
+
+  onPriceFilterChange(event: any, type: 'min' | 'max'): void {
+    const value = event.target.value;
+    if (type === 'min') {
+      this.minPrice.set(value);
+    } else {
+      this.maxPrice.set(value);
+    }
+    this.filterSubject.next();
+  }
+
   onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
       this.loadCars(page);
     }
   }
 
-  // دالة مساعدة لإنشاء مصفوفة الصفحات للـ Pagination
   getPages(): number[] {
     const total = this.totalPages();
     return Array.from({ length: total }, (_, i) => i + 1);

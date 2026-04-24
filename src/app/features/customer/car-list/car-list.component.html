@@ -6,6 +6,30 @@
     </div>
     
     <div class="actions-box">
+      <div class="filter-box">
+        <input 
+          type="text" 
+          placeholder="Brand..." 
+          (input)="onBrandFilterChange($event)"
+          [value]="brandFilter()">
+      </div>
+
+      <div class="filter-box">
+        <input 
+          type="number" 
+          placeholder="Min Price..." 
+          (input)="onPriceFilterChange($event, 'min')"
+          [value]="minPrice()">
+      </div>
+
+      <div class="filter-box">
+        <input 
+          type="number" 
+          placeholder="Max Price..." 
+          (input)="onPriceFilterChange($event, 'max')"
+          [value]="maxPrice()">
+      </div>
+
       <div class="search-box">
         <i class="icon-search"></i>
         <input 
@@ -32,6 +56,7 @@
             <tr>
               <th>ID</th>
               <th>Car Name</th>
+              <th>Brand</th>
               <th>Model</th>
               <th>Year</th>
               <th>Price/Day</th>
@@ -44,6 +69,7 @@
               <tr>
                 <td>#{{ car.id }}</td>
                 <td><strong>{{ car.name }}</strong></td>
+                <td>{{ car.brand }}</td>
                 <td>{{ car.model }}</td>
                 <td>{{ car.year }}</td>
                 <td><span class="price">${{ car.price_per_day }}</span></td>
