@@ -31,7 +31,7 @@ export class LoginComponent {
       this.isLoading = true;
       this.errorMessage = '';
       
-      this.authService.loginCustomer(this.loginForm.value).subscribe({
+      this.authService.login(this.loginForm.value , 'customer').subscribe({
         next: (response) => {
           this.isLoading = false;
           this.router.navigate(['/customer/cars']);
