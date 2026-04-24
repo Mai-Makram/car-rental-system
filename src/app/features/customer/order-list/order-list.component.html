@@ -4,7 +4,6 @@
       <h1>My Rental Orders</h1>
       <p>View and track your car rental history</p>
     </div>
-    <button routerLink="/customer/cars" class="btn-new">Browse Cars</button>
   </div>
 
   <div class="table-card">
@@ -51,7 +50,7 @@
                     </span>
                   </td>
                   <td>
-                    <button class="btn-action" title="View Details">Details</button>
+                    <button class="btn-action" [routerLink]="['/customer/orders', order.id]" title="View Details">Details</button>
                   </td>
                 </tr>
               }

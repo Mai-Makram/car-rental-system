@@ -14,18 +14,6 @@
     h1 { font-size: 2.2rem; color: #1a1a1a; margin-bottom: 0.4rem; }
     p { color: #666; font-size: 1rem; }
   }
-
-  .btn-new {
-    padding: 0.8rem 1.8rem;
-    background: #1a1a1a;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    &:hover { background: #007aff; transform: translateY(-2px); }
-  }
 }
 
 .table-card {

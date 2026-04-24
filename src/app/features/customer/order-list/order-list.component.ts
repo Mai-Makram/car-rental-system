@@ -28,6 +28,7 @@ export class OrderListComponent implements OnInit {
     this.isLoading.set(true);
     this.customerService.getOrders(page, this.perPage).subscribe({
       next: (response) => {
+        // console.log(response);
         this.orders.set(response.data || response);
         this.currentPage.set(page);
         

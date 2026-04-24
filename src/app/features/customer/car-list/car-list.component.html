@@ -83,9 +83,14 @@
                   </span>
                 </td>
                 <td>
-                  <button class="btn-action" [routerLink]="['/customer/cars', car.id]" title="View Details">
-                    View
-                  </button>
+                  <div class="actions-group">
+                    <button class="btn-action" [routerLink]="['/customer/cars', car.id]" title="View Details">
+                      View
+                    </button>
+                    <button class="btn-order-now" [routerLink]="['/customer/cars', car.id, 'order']" title="Rent this car">
+                      Order Now
+                    </button>
+                  </div>
                 </td>
               </tr>
             }

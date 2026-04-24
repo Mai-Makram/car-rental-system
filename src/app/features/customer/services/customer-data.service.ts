@@ -51,6 +51,10 @@ export class CustomerDataService {
     return this.apiService.getWithParams('customer/orders', params);
   }
 
+  getOneOrder(id: number | string): Observable<any> {
+    return this.apiService.get(`customer/orders/${id}`);
+  }
+
   updateCustomerProfile(data: any): Observable<any> {
     return this.apiService.put('customer/profile', data);
   }

@@ -1,0 +1,41 @@
+<div class="create-order-container">
+  <div class="page-header">
+    <h1>Complete Your Booking</h1>
+    <p>Review the car details and fill in the rental information.</p>
+  </div>
+
+  <div class="booking-grid">
+    <!-- Left Side: Simple Car Summary -->
+    <div class="car-summary-card">
+      <h3>Selected Vehicle</h3>
+      @if (isLoading()) {
+        <div class="skeleton-summary">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      } @else {
+        @if (car()) {
+          <div class="car-preview">
+            <div class="car-info">
+              <span class="brand">{{ car().brand }}</span>
+              <h2 class="name">{{ car().name }}</h2>
+              <p class="model">{{ car().model }} • {{ car().year }}</p>
+              <div class="price-tag">
+                <span class="label">Daily Rate:</span>
+                <span class="value">${{ car().price_per_day }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Right Side: Booking Form (Placeholder for now) -->
+    <div class="booking-form-card">
+      <div class="placeholder-form">
+        <p>Booking Form will be implemented here...</p>
+        <button class="btn-cancel" routerLink="/customer/cars">Change Vehicle</button>
+      </div>
+    </div>
+  </div>
+</div>

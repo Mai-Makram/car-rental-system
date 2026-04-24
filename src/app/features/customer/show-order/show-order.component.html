@@ -1,0 +1,85 @@
+<div class="show-order-container">
+  @if (isLoading()) {
+    <div class="loader-box">
+      <div class="spinner"></div>
+      <p>Fetching order details...</p>
+    </div>
+  } @else {
+    @if (order()) {
+      <div class="order-detail-card">
+        <div class="card-header">
+          <button routerLink="/customer/orders" class="btn-back">← Back to Orders</button>
+          <div class="order-meta">
+            <h1>Order #{{ order().id }}</h1>
+            <span class="status-badge" [ngClass]="getStatusClass(order().status)">
+              {{ order().status || 'Pending' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="detail-sections">
+          <!-- Car Information -->
+          <div class="detail-section car-summary">
+            <div class="section-title">
+              <span class="icon">🚗</span>
+              <h2>Vehicle Information</h2>
+            </div>
+            <div class="info-content">
+              <div class="car-brand">{{ order().car?.brand }}</div>
+              <div class="car-name">{{ order().car?.name || 'Car #' + order().car_id }}</div>
+              <div class="car-model">{{ order().car?.model }} • {{ order().car?.year }}</div>
+            </div>
+          </div>
+
+          <!-- Time & Date -->
+          <div class="detail-section timeline">
+            <div class="section-title">
+              <span class="icon">📅</span>
+              <h2>Rental Timeline</h2>
+            </div>
+            <div class="timeline-content">
+              <div class="time-block">
+                <label>Pickup Date</label>
+                <span>{{ order().start_date | date:'fullDate' }}</span>
+              </div>
+              <div class="connector"></div>
+              <div class="time-block">
+                <label>Return Date</label>
+                <span>{{ order().end_date | date:'fullDate' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Summary -->
+          <div class="detail-section payment">
+            <div class="section-title">
+              <span class="icon">💰</span>
+              <h2>Financial Summary</h2>
+            </div>
+            <div class="payment-content">
+              <div class="price-row">
+                <span>Total Amount Paid</span>
+                <span class="amount">${{ order().total_price }}</span>
+              </div>
+              @if (order().payment_method) {
+                <div class="payment-method">
+                  <span>Payment via {{ order().payment_method }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn-print" onclick="window.print()">Print Invoice</button>
+          <button class="btn-support">Contact Support</button>
+        </div>
+      </div>
+    } @else {
+      <div class="not-found">
+        <h2>Order not found</h2>
+        <button routerLink="/customer/orders" class="btn-primary">Back to My Orders</button>
+      </div>
+    }
+  }
+</div>

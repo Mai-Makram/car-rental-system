@@ -6,6 +6,8 @@ import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layo
 import { CarListComponent } from './features/customer/car-list/car-list.component';
 import { ShowCarComponent } from './features/customer/show-car/show-car.component';
 import { OrderListComponent } from './features/customer/order-list/order-list.component';
+import { ShowOrderComponent } from './features/customer/show-order/show-order.component';
+import { CreateOrderComponent } from './features/customer/create-order/create-order.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +26,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'cars', pathMatch: 'full' },
       { path: 'cars', component: CarListComponent },
       { path: 'cars/:id', component: ShowCarComponent },
-      { path: 'orders', component: OrderListComponent }
+      { path: 'cars/:id/order', component: CreateOrderComponent },
+      { path: 'orders', component: OrderListComponent },
+      { path: 'orders/:id', component: ShowOrderComponent }
     ]
   }
 ];
