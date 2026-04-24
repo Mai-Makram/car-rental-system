@@ -8,97 +8,88 @@
 
   <div class="table-card">
     @if (isLoading()) {
-      <div class="loader-box">
-        <div class="spinner"></div>
-        <p>Loading your orders...</p>
-      </div>
+    <div class="loader-box">
+      <div class="spinner"></div>
+      <p>Loading your orders...</p>
+    </div>
     } @else {
-      @if (orders().length > 0) {
-        <div class="table-responsive">
-          <table class="modern-table">
-            <thead>
-              <tr>
-                <th>Order #</th>
-                <th>Car Details</th>
-                <th>Rent Date</th>
-                <th>Total Price</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (order of orders(); track order.id) {
-                <tr>
-                  <td><span class="id-tag">#{{ order.id }}</span></td>
-                  <td>
-                    <div class="car-info">
-                      <span class="car-name">{{ order.car?.name || 'Car #' + order.car_id }}</span>
-                      <span class="car-model">{{ order.car?.brand }} {{ order.car?.model }}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="date-info">
-                      <span>{{ order.start_date | date:'mediumDate' }}</span>
-                      <span class="to">to</span>
-                      <span>{{ order.end_date | date:'mediumDate' }}</span>
-                    </div>
-                  </td>
-                  <td><span class="price-tag">${{ order.total_price }}</span></td>
-                  <td>
-                    <span class="status-pill" [ngClass]="getStatusClass(order.status)">
-                      {{ order.status || 'Pending' }}
-                    </span>
-                  </td>
-                  <td>
-                    <button class="btn-action" [routerLink]="['/customer/orders', order.id]" title="View Details">Details</button>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
+    @if (orders().length > 0) {
+    <div class="table-responsive">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th>Order #</th>
+            <th>Car Details</th>
+            <th>Delivery Date</th>
+            <th>Receiving Date</th>
+            <th>Duration</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orders(); track order.id) {
+          <tr>
+            <td><span class="id-tag">#{{ order.id }}</span></td>
+            <td>
+              <div class="car-info">
+                <span class="car-name">{{ order.car?.name || 'Car #' + order.car_id }}</span>
+                <span class="car-model">{{ order.car?.brand }} {{ order.car?.model }}</span>
+              </div>
+            </td>
+            <td><span class="date-tag">{{ order.delivery_date | date:'mediumDate' }}</span></td>
+            <td><span class="date-tag">{{ order.receiving_date | date:'mediumDate' }}</span></td>
+            <td><span class="duration-badge">{{ calculateDuration(order.delivery_date, order.receiving_date) }} Days</span></td>
+            <td><span class="price-tag">${{ order.total_price }}</span></td>
+            <td>
+              <span class="status-pill" [ngClass]="getStatusClass(order.status)">
+                {{ order.payment_status }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-action" [routerLink]="['/customer/orders', order.id]"
+                title="View Details">Details</button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Section -->
+    <div class="pagination-section">
+      <div class="page-info">
+        Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
+      </div>
+
+      <div class="pagination-controls">
+        <button class="page-btn prev" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
+          Previous
+        </button>
+
+        <div class="page-numbers">
+          @for (page of getPages(); track page) {
+          <button class="page-number" [class.active]="page === currentPage()" (click)="onPageChange(page)">
+            {{ page }}
+          </button>
+          }
         </div>
 
-        <!-- Pagination Section -->
-        <div class="pagination-section">
-          <div class="page-info">
-            Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
-          </div>
-          
-          <div class="pagination-controls">
-            <button 
-              class="page-btn prev" 
-              [disabled]="currentPage() === 1"
-              (click)="onPageChange(currentPage() - 1)">
-              Previous
-            </button>
-            
-            <div class="page-numbers">
-              @for (page of getPages(); track page) {
-                <button 
-                  class="page-number" 
-                  [class.active]="page === currentPage()"
-                  (click)="onPageChange(page)">
-                  {{ page }}
-                </button>
-              }
-            </div>
-            
-            <button 
-              class="page-btn next" 
-              [disabled]="currentPage() === totalPages()"
-              (click)="onPageChange(currentPage() + 1)">
-              Next
-            </button>
-          </div>
-        </div>
-      } @else {
-        <div class="empty-state">
-          <div class="icon">📋</div>
-          <h2>No orders yet</h2>
-          <p>You haven't made any rental bookings yet.</p>
-          <button routerLink="/customer/cars" class="btn-primary">Find a Car</button>
-        </div>
-      }
+        <button class="page-btn next" [disabled]="currentPage() === totalPages()"
+          (click)="onPageChange(currentPage() + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+    } @else {
+    <div class="empty-state">
+      <div class="icon">📋</div>
+      <h2>No orders yet</h2>
+      <p>You haven't made any rental bookings yet.</p>
+      <button routerLink="/customer/cars" class="btn-primary">Find a Car</button>
+    </div>
+    }
     }
   </div>
 </div>

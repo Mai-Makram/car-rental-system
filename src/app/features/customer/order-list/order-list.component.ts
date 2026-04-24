@@ -65,4 +65,13 @@ export class OrderListComponent implements OnInit {
     if (!status) return 'status-pending';
     return `status-${status.toLowerCase()}`;
   }
+
+  calculateDuration(start: string, end: string): number {
+    if (!start || !end) return 0;
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }
 }

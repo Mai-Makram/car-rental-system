@@ -52,6 +52,26 @@
     font-family: monospace;
     color: #007aff;
     font-weight: 700;
+    background: #f0f7ff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+
+  .date-tag {
+    font-weight: 600;
+    color: #444;
+    font-size: 0.9rem;
+  }
+
+  .duration-badge {
+    background: #fff4e5;
+    color: #ff9500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
 
   .car-info {
@@ -59,12 +79,6 @@
     flex-direction: column;
     .car-name { font-weight: 700; color: #1a1a1a; font-size: 1rem; }
     .car-model { color: #888; font-size: 0.85rem; margin-top: 0.2rem; }
-  }
-
-  .date-info {
-    font-size: 0.9rem;
-    color: #555;
-    .to { margin: 0 0.5rem; color: #ccc; font-weight: 400; }
   }
 
   .price-tag { font-weight: 700; color: #1a1a1a; font-size: 1.1rem; }

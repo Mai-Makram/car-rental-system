@@ -109,6 +109,7 @@ export class CreateOrderComponent implements OnInit {
 
       this.customerService.createOrder(formData).subscribe({
         next: (response) => {
+          console.log(response);
           this.router.navigate(['/customer/orders']);
         },
         error: (err) => {
