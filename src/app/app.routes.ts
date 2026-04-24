@@ -8,6 +8,7 @@ import { ShowCarComponent } from './features/customer/show-car/show-car.componen
 import { OrderListComponent } from './features/customer/order-list/order-list.component';
 import { ShowOrderComponent } from './features/customer/show-order/show-order.component';
 import { CreateOrderComponent } from './features/customer/create-order/create-order.component';
+import { InstallmentListComponent } from './features/customer/installment-list/installment-list.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,8 @@ export const routes: Routes = [
       { path: 'cars/:id', component: ShowCarComponent },
       { path: 'cars/:id/order', component: CreateOrderComponent },
       { path: 'orders', component: OrderListComponent },
-      { path: 'orders/:id', component: ShowOrderComponent }
+      { path: 'orders/:id', component: ShowOrderComponent },
+      { path: 'installments', component: InstallmentListComponent }
     ]
   }
 ];

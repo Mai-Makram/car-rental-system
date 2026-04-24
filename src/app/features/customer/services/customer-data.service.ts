@@ -59,6 +59,18 @@ export class CustomerDataService {
     return this.apiService.post('customer/orders', data);
   }
 
+  getInstallments(page: number = 1, perPage: number = 15): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString());
+
+    return this.apiService.getWithParams('customer/installments', params);
+  }
+
+  payInstallment(id: number | string): Observable<any> {
+    return this.apiService.post(`customer/installments/${id}/pay`, {});
+  }
+
   updateCustomerProfile(data: any): Observable<any> {
     return this.apiService.put('customer/profile', data);
   }
