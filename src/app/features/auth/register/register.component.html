@@ -2,31 +2,91 @@
   <h2>Create Account</h2>
   <p class="subtitle">Join our premium car rental community</p>
 
-  <form>
+  @if (errorMessage) {
+    <div class="alert-error">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" formControlName="name" placeholder="John Doe">
+      @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+        <div class="field-error">
+          @if (registerForm.get('name')?.errors?.['required']) {
+            Name is required.
+          } @else if (registerForm.get('name')?.errors?.['minlength']) {
+            Name must be at least 3 characters.
+          }
+        </div>
+      }
+    </div>
+
     <div class="form-group">
       <label for="email">Email Address</label>
-      <input type="email" id="email" placeholder="name@company.com">
+      <input type="email" id="email" formControlName="email" placeholder="name@company.com">
+      @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+        <div class="field-error">
+          Please enter a valid email.
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" formControlName="phone" placeholder="+1234567890">
+      @if (registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid) {
+        <div class="field-error">
+          @if (registerForm.get('phone')?.errors?.['required']) {
+            Phone number is required.
+          } @else {
+            Please enter a valid phone number.
+          }
+        </div>
+      }
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="••••••••">
+        <input type="password" id="password" formControlName="password" placeholder="••••••••">
+        @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
+          <div class="field-error">
+            Min 6 characters.
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" placeholder="••••••••">
+        <input type="password" id="confirm-password" formControlName="password_confirmation" placeholder="••••••••">
+        @if (registerForm.get('password_confirmation')?.touched && registerForm.hasError('mismatch')) {
+          <div class="field-error">
+            Passwords don't match.
+          </div>
+        }
       </div>
     </div>
 
     <div class="form-group">
       <label for="country">Country</label>
-      <input type="text" id="country" placeholder="Select your country">
+      <input type="text" id="country" formControlName="country" placeholder="Select your country">
+      @if (registerForm.get('country')?.touched && registerForm.get('country')?.invalid) {
+        <div class="field-error">
+          Country is required.
+        </div>
+      }
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn-primary">Create Account</button>
+      <button type="submit" class="btn-primary" [disabled]="registerForm.invalid || isLoading">
+        @if (!isLoading) {
+          <span>Create Account</span>
+        } @else {
+          <span>Registering...</span>
+        }
+      </button>
     </div>
   </form>
 

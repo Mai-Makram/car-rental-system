@@ -2,19 +2,41 @@
   <h2>Welcome Back</h2>
   <p class="subtitle">Please enter your details to sign in</p>
 
-  <form>
+  @if (errorMessage) {
+    <div class="alert-error">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="email">Email Address</label>
-      <input type="email" id="email" placeholder="name@company.com">
+      <input type="email" id="email" formControlName="email" placeholder="name@company.com">
+      @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+        <div class="field-error">
+          Please enter a valid email.
+        </div>
+      }
     </div>
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" id="password" placeholder="••••••••">
+      <input type="password" id="password" formControlName="password" placeholder="••••••••">
+      @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+        <div class="field-error">
+          Password must be at least 6 characters.
+        </div>
+      }
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn-primary">Sign In</button>
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || isLoading">
+        @if (!isLoading) {
+          <span>Sign In</span>
+        } @else {
+          <span>Signing in...</span>
+        }
+      </button>
     </div>
   </form>
 
