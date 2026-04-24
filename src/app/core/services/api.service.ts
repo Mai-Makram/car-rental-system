@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -13,6 +13,10 @@ export class ApiService {
 
   get<T>(path: string): Observable<T> {
     return this.http.get<T>(`${this.baseUrl}/${path}`);
+  }
+
+  getWithParams<T>(path: string, params: HttpParams): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}/${path}`, { params });
   }
 
   post<T>(path: string, body: any): Observable<T> {

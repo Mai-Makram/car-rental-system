@@ -13,10 +13,15 @@ export class AuthService {
   constructor(private apiService: ApiService) {}
 
   login(credentials: any , role: UserRole): Observable<any> {
-    return this.apiService.post('${role}/login', credentials).pipe(
+    return this.apiService.post(`${role}/login`, credentials).pipe(
       tap((response: any) => {
-        if (response.token) {
-          localStorage.setItem(this.TOKEN_KEY, response.token);
+        console.log('Login Response:', response);
+        const token = response.token || response.data?.token;
+        if (token) {
+          localStorage.setItem(this.TOKEN_KEY, token);
+          console.log('Token saved successfully');
+        } else {
+          console.warn('No token found in response');
         }
       })
     );

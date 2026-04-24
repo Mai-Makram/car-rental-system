@@ -1,1 +1,96 @@
-<p>car-list works!</p>
+<div class="cars-container">
+  <div class="header-section">
+    <div class="title-box">
+      <h1>Car Fleet</h1>
+      <p>Manage and browse available cars</p>
+    </div>
+    
+    <div class="actions-box">
+      <div class="search-box">
+        <i class="icon-search"></i>
+        <input 
+          type="text" 
+          placeholder="Search by name..." 
+          (input)="onSearch($event)"
+          [value]="searchQuery()">
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    @if (isLoading()) {
+      <div class="skeleton-table">
+        <div class="skeleton-row header"></div>
+        @for (i of [1,2,3,4,5]; track i) {
+          <div class="skeleton-row"></div>
+        }
+      </div>
+    } @else {
+      @if (cars().length > 0) {
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Car Name</th>
+              <th>Model</th>
+              <th>Year</th>
+              <th>Price/Day</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (car of cars(); track car.id) {
+              <tr>
+                <td>#{{ car.id }}</td>
+                <td><strong>{{ car.name }}</strong></td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.year }}</td>
+                <td><span class="price">${{ car.price_per_day }}</span></td>
+                <td>
+                  <span class="badge" [class.available]="car.status === 'available'">
+                    {{ car.status || 'Available' }}
+                  </span>
+                </td>
+                <td>
+                  <button class="btn-action" title="View Details">
+                    View
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <!-- Pagination Info & Bar -->
+        <div class="pagination-header">
+          <p>Showing page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong> (Total: <strong>{{ totalItems() }}</strong> cars)</p>
+        </div>
+
+        <div class="pagination">
+          <button class="nav-btn" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
+            <i class="icon-prev"></i> Previous
+          </button>
+          
+          <div class="page-numbers">
+            @for (page of getPages(); track page) {
+              <button 
+                [class.active]="currentPage() === page" 
+                (click)="onPageChange(page)">
+                {{ page }}
+              </button>
+            }
+          </div>
+
+          <button class="nav-btn" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
+            Next <i class="icon-next"></i>
+          </button>
+        </div>
+      } @else {
+        <div class="no-data">
+          <p>No cars found matching your search.</p>
+        </div>
+      }
+    }
+  </div>
+</div>
