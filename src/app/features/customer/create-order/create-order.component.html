@@ -30,12 +30,84 @@
       }
     </div>
 
-    <!-- Right Side: Booking Form (Placeholder for now) -->
+    <!-- Right Side: Booking Form -->
     <div class="booking-form-card">
-      <div class="placeholder-form">
-        <p>Booking Form will be implemented here...</p>
-        <button class="btn-cancel" routerLink="/customer/cars">Change Vehicle</button>
-      </div>
+      @if (errorMessage()) {
+        <div class="error-alert">
+          <span class="icon">⚠️</span>
+          <p>{{ errorMessage() }}</p>
+        </div>
+      }
+
+      <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+        <div class="form-section">
+          <h3>Rental Dates</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Delivery Date</label>
+              <input type="date" formControlName="delivery_date">
+            </div>
+            <div class="form-group">
+              <label>Receiving Date</label>
+              <input type="date" formControlName="receiving_date">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Payment & Order Type</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select formControlName="payment_type">
+                <option value="" disabled selected>Choose Method</option>
+                <option value="cash">Cash</option>
+                <option value="visa">Visa</option>
+                <option value="tamara">Tamara</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Order Type</label>
+              <select formControlName="order_type">
+                <option value="" disabled selected>Choose Type</option>
+                <option value="full">Full Payment</option>
+                <option value="installments">Installments</option>
+              </select>
+              @if (bookingForm.get('payment_type')?.value === 'tamara') {
+                <small class="info-note">Tamara requires installments.</small>
+              }
+              @if (bookingForm.get('payment_type')?.value === 'cash') {
+                <small class="info-note">Cash requires full payment.</small>
+              }
+            </div>
+          </div>
+        </div>
+
+        @if (bookingForm.get('order_type')?.value === 'installments') {
+          <div class="form-section installment-section">
+            <h3>Installment Details</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Down Payment ($)</label>
+                <input type="number" formControlName="down_payment" placeholder="Enter amount">
+              </div>
+              <div class="form-group">
+                <label>Number of Installments</label>
+                <input type="number" formControlName="number_of_installments" placeholder="e.g. 12 months">
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="form-footer">
+          <button type="submit" class="btn-submit" [disabled]="bookingForm.invalid || isSubmitting()">
+            {{ isSubmitting() ? 'Processing...' : 'Confirm Booking' }}
+          </button>
+          <button type="button" class="btn-cancel" routerLink="/customer/cars" [disabled]="isSubmitting()">
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -55,6 +55,10 @@ export class CustomerDataService {
     return this.apiService.get(`customer/orders/${id}`);
   }
 
+  createOrder(data: any): Observable<any> {
+    return this.apiService.post('customer/orders', data);
+  }
+
   updateCustomerProfile(data: any): Observable<any> {
     return this.apiService.put('customer/profile', data);
   }
