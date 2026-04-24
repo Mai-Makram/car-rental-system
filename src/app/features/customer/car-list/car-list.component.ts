@@ -3,11 +3,12 @@ import { CustomerDataService } from '../services/customer-data.service';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-car-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './car-list.component.html',
   styleUrl: './car-list.component.scss'
 })

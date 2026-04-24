@@ -4,6 +4,7 @@ import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layout.component';
 import { CarListComponent } from './features/customer/car-list/car-list.component';
+import { ShowCarComponent } from './features/customer/show-car/show-car.component';
 
 export const routes: Routes = [
   {
@@ -20,7 +21,8 @@ export const routes: Routes = [
     component: CustomerLayoutComponent,
     children: [
       { path: '', redirectTo: 'cars', pathMatch: 'full' },
-      { path: 'cars', component: CarListComponent }
+      { path: 'cars', component: CarListComponent },
+      { path: 'cars/:id', component: ShowCarComponent }
     ]
   }
 ];
