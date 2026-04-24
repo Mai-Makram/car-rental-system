@@ -43,6 +43,14 @@ export class CustomerDataService {
     return this.apiService.get(`customer/cars/${id}`);
   }
 
+  getOrders(page: number = 1, perPage: number = 15): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString());
+
+    return this.apiService.getWithParams('customer/orders', params);
+  }
+
   updateCustomerProfile(data: any): Observable<any> {
     return this.apiService.put('customer/profile', data);
   }

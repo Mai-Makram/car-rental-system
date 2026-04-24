@@ -5,6 +5,7 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layout.component';
 import { CarListComponent } from './features/customer/car-list/car-list.component';
 import { ShowCarComponent } from './features/customer/show-car/show-car.component';
+import { OrderListComponent } from './features/customer/order-list/order-list.component';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'cars', pathMatch: 'full' },
       { path: 'cars', component: CarListComponent },
-      { path: 'cars/:id', component: ShowCarComponent }
+      { path: 'cars/:id', component: ShowCarComponent },
+      { path: 'orders', component: OrderListComponent }
     ]
   }
 ];

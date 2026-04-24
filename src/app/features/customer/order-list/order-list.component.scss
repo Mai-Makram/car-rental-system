@@ -1,0 +1,219 @@
+.orders-container {
+  padding: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+
+  .title-box {
+    h1 { font-size: 2.2rem; color: #1a1a1a; margin-bottom: 0.4rem; }
+    p { color: #666; font-size: 1rem; }
+  }
+
+  .btn-new {
+    padding: 0.8rem 1.8rem;
+    background: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover { background: #007aff; transform: translateY(-2px); }
+  }
+}
+
+.table-card {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  min-height: 400px;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    padding: 1.5rem;
+    background: #f8f9fb;
+    color: #444;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  td {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f4f4f4;
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .id-tag {
+    font-family: monospace;
+    color: #007aff;
+    font-weight: 700;
+  }
+
+  .car-info {
+    display: flex;
+    flex-direction: column;
+    .car-name { font-weight: 700; color: #1a1a1a; font-size: 1rem; }
+    .car-model { color: #888; font-size: 0.85rem; margin-top: 0.2rem; }
+  }
+
+  .date-info {
+    font-size: 0.9rem;
+    color: #555;
+    .to { margin: 0 0.5rem; color: #ccc; font-weight: 400; }
+  }
+
+  .price-tag { font-weight: 700; color: #1a1a1a; font-size: 1.1rem; }
+
+  .status-pill {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+
+    &.status-pending { background: #fff4e5; color: #ff9500; }
+    &.status-completed { background: #e6f9ed; color: #34c759; }
+    &.status-cancelled { background: #ffebee; color: #ff3b30; }
+    &.status-active { background: #e0f2ff; color: #007aff; }
+  }
+
+  .btn-action {
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    background: white;
+    color: #555;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover { background: #f8f8f8; border-color: #ddd; color: #1a1a1a; }
+  }
+}
+
+.pagination-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background: #fff;
+  border-top: 1px solid #f4f4f4;
+
+  .page-info {
+    color: #777;
+    font-size: 0.9rem;
+    span { color: #1a1a1a; font-weight: 600; }
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .page-btn {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #eee;
+      background: white;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover:not(:disabled) {
+        background: #f8f8f8;
+        border-color: #007aff;
+        color: #007aff;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .page-numbers {
+      display: flex;
+      gap: 0.5rem;
+
+      .page-number {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: #666;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          background: #f0f7ff;
+          color: #007aff;
+        }
+
+        &.active {
+          background: #007aff;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.loader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem;
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 122, 255, 0.1);
+    border-left-color: #007aff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 5rem 2rem;
+  .icon { font-size: 4rem; margin-bottom: 1.5rem; }
+  h2 { margin-bottom: 1rem; color: #1a1a1a; }
+  p { color: #777; margin-bottom: 2rem; }
+  .btn-primary {
+    padding: 0.8rem 2.5rem;
+    background: #007aff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 122, 255, 0.2); }
+  }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
