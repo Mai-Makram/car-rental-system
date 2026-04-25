@@ -32,7 +32,14 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
+    this.apiService.post('customer/logout', {}).subscribe({
+      next: () => {
+        localStorage.removeItem(this.TOKEN_KEY);
+      },
+      error: () => {
+        localStorage.removeItem(this.TOKEN_KEY); // مسح التوكن حتى لو فشل طلب السيرفر
+      }
+    });
   }
 
   getToken(): string | null {

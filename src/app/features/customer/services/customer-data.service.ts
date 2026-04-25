@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { ApiService } from '../../../core/services/api.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -8,11 +8,29 @@ import { HttpParams } from '@angular/common/http';
 })
 export class CustomerDataService {
   private apiService = inject(ApiService);
+  
+  // الحالة المركزية للملف الشخصي
+  userProfile = signal<any>(null);
 
-  constructor() {}
+  constructor() { }
+
+  refreshProfile(): void {
+    this.apiService.get('customer/me').subscribe({
+      next: (response: any) => {
+        const profileData = response.data || response;
+        this.userProfile.set(profileData);
+      },
+      error: (err) => console.error('Error refreshing profile:', err)
+    });
+  }
 
   getCustomerProfile(): Observable<any> {
-    return this.apiService.get('customer/profile');
+    return this.apiService.get('customer/me').pipe(
+      tap((response: any) => {
+        const profileData = response.data || response;
+        this.userProfile.set(profileData);
+      })
+    );
   }
 
   getCars(page: number = 1, perPage: number = 15, searchTerm: string = '', brand: string = '', minPrice: string = '', maxPrice: string = ''): Observable<any> {

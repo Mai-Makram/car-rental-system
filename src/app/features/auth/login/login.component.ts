@@ -33,6 +33,8 @@ export class LoginComponent {
       
       this.authService.login(this.loginForm.value , 'customer').subscribe({
         next: (response) => {
+          console.log(response)
+          console.log("ghhhhh")
           this.isLoading = false;
           this.router.navigate(['/customer/cars']);
         },

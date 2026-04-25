@@ -43,7 +43,7 @@ export class CarListComponent implements OnInit {
 
   loadCars(page: number = 1): void {
     this.isLoading.set(true);
-    
+
     console.log('Sending Request:', {
       page,
       search: this.searchQuery(),
@@ -53,18 +53,18 @@ export class CarListComponent implements OnInit {
     });
 
     this.customerService.getCars(
-      page, 
-      this.perPage, 
-      this.searchQuery(), 
+      page,
+      this.perPage,
+      this.searchQuery(),
       this.brandFilter(),
       this.minPrice(),
       this.maxPrice()
     ).subscribe({
       next: (response) => {
         console.log('API Response:', response);
-        this.cars.set(response.data || response); 
+        this.cars.set(response.data || response);
         this.currentPage.set(page);
-        
+
         if (response.meta) {
           this.totalPages.set(response.meta.last_page || response.meta.total_pages || 1);
           this.totalItems.set(response.meta.total || 0);
@@ -72,7 +72,7 @@ export class CarListComponent implements OnInit {
           this.totalPages.set(response.last_page || response.total_pages || 1);
           this.totalItems.set(response.total || response.total_items || 0);
         }
-        
+
         this.isLoading.set(false);
       },
       error: (err) => {

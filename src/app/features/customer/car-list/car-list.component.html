@@ -8,124 +8,109 @@
     <button class="btn-orders" [routerLink]="['/customer/orders']">
       View My Orders
     </button>
-    
+
     <div class="actions-box">
       <div class="filter-box">
-        <input 
-          type="text" 
-          placeholder="Brand..." 
-          (input)="onBrandFilterChange($event)"
-          [value]="brandFilter()">
+        <input type="text" placeholder="Brand..." (input)="onBrandFilterChange($event)" [value]="brandFilter()">
       </div>
 
       <div class="filter-box">
-        <input 
-          type="number" 
-          placeholder="Min Price..." 
-          (input)="onPriceFilterChange($event, 'min')"
+        <input type="number" placeholder="Min Price..." (input)="onPriceFilterChange($event, 'min')"
           [value]="minPrice()">
       </div>
 
       <div class="filter-box">
-        <input 
-          type="number" 
-          placeholder="Max Price..." 
-          (input)="onPriceFilterChange($event, 'max')"
+        <input type="number" placeholder="Max Price..." (input)="onPriceFilterChange($event, 'max')"
           [value]="maxPrice()">
       </div>
 
       <div class="search-box">
         <i class="icon-search"></i>
-        <input 
-          type="text" 
-          placeholder="Search by name..." 
-          (input)="onSearch($event)"
-          [value]="searchQuery()">
+        <input type="text" placeholder="Search by name..." (input)="onSearch($event)" [value]="searchQuery()">
       </div>
     </div>
   </div>
 
   <div class="table-wrapper">
     @if (isLoading()) {
-      <div class="skeleton-table">
-        <div class="skeleton-row header"></div>
-        @for (i of [1,2,3,4,5]; track i) {
-          <div class="skeleton-row"></div>
+    <div class="skeleton-table">
+      <div class="skeleton-row header"></div>
+      @for (i of [1,2,3,4,5]; track i) {
+      <div class="skeleton-row"></div>
+      }
+    </div>
+    } @else {
+    @if (cars().length > 0) {
+    <table class="premium-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Car Name</th>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Price/Day</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (car of cars(); track car.id) {
+        <tr>
+          <td>#{{ car.id }}</td>
+          <td><strong>{{ car.name }}</strong></td>
+          <td>{{ car.brand }}</td>
+          <td>{{ car.model }}</td>
+          <td>{{ car.year }}</td>
+          <td><span class="price">${{ car.price_per_day }}</span></td>
+          <td>
+            <span class="badge" [class.available]="car.status === 'available'">
+              {{ car.status || 'Available' }}
+            </span>
+          </td>
+          <td>
+            <div class="actions-group">
+              <button class="btn-action" [routerLink]="['/customer/cars', car.id]" title="View Details">
+                View
+              </button>
+              <button class="btn-order-now" [routerLink]="['/customer/cars', car.id, 'order']" title="Rent this car">
+                Order Now
+              </button>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- Pagination Info & Bar -->
+    <div class="pagination-header">
+      <p>Showing page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong> (Total: <strong>{{
+          totalItems() }}</strong> cars)</p>
+    </div>
+
+    <div class="pagination">
+      <button class="nav-btn" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
+        <i class="icon-prev"></i> Previous
+      </button>
+
+      <div class="page-numbers">
+        @for (page of getPages(); track page) {
+        <button [class.active]="currentPage() === page" (click)="onPageChange(page)">
+          {{ page }}
+        </button>
         }
       </div>
+
+      <button class="nav-btn" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
+        Next <i class="icon-next"></i>
+      </button>
+    </div>
     } @else {
-      @if (cars().length > 0) {
-        <table class="premium-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Car Name</th>
-              <th>Brand</th>
-              <th>Model</th>
-              <th>Year</th>
-              <th>Price/Day</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (car of cars(); track car.id) {
-              <tr>
-                <td>#{{ car.id }}</td>
-                <td><strong>{{ car.name }}</strong></td>
-                <td>{{ car.brand }}</td>
-                <td>{{ car.model }}</td>
-                <td>{{ car.year }}</td>
-                <td><span class="price">${{ car.price_per_day }}</span></td>
-                <td>
-                  <span class="badge" [class.available]="car.status === 'available'">
-                    {{ car.status || 'Available' }}
-                  </span>
-                </td>
-                <td>
-                  <div class="actions-group">
-                    <button class="btn-action" [routerLink]="['/customer/cars', car.id]" title="View Details">
-                      View
-                    </button>
-                    <button class="btn-order-now" [routerLink]="['/customer/cars', car.id, 'order']" title="Rent this car">
-                      Order Now
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-
-        <!-- Pagination Info & Bar -->
-        <div class="pagination-header">
-          <p>Showing page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong> (Total: <strong>{{ totalItems() }}</strong> cars)</p>
-        </div>
-
-        <div class="pagination">
-          <button class="nav-btn" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
-            <i class="icon-prev"></i> Previous
-          </button>
-          
-          <div class="page-numbers">
-            @for (page of getPages(); track page) {
-              <button 
-                [class.active]="currentPage() === page" 
-                (click)="onPageChange(page)">
-                {{ page }}
-              </button>
-            }
-          </div>
-
-          <button class="nav-btn" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
-            Next <i class="icon-next"></i>
-          </button>
-        </div>
-      } @else {
-        <div class="no-data">
-          <p>No cars found matching your search.</p>
-        </div>
-      }
+    <div class="no-data">
+      <p>No cars found matching your search.</p>
+    </div>
+    }
     }
   </div>
 </div>

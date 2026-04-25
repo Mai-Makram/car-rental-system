@@ -60,11 +60,11 @@ export class InstallmentListComponent implements OnInit {
 
     this.customerService.payInstallment(id).subscribe({
       next: (response) => {
-        
         this.feedback.set({ 
           message: response.message || 'Payment completed successfully!', 
           type: 'success' 
         });
+        this.customerService.refreshProfile(); // تحديث المحفظة في الهيدر فوراً
         this.loadInstallments(this.currentPage());
         this.payingId.set(null);
         this.clearFeedback();
