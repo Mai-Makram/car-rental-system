@@ -20,24 +20,6 @@
       p { color: #777; font-size: 0.95rem; }
     }
 
-    .btn-orders {
-      padding: 0.8rem 1.8rem;
-      background: #007aff;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
-
-      &:hover {
-        background: #0056b3;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 122, 255, 0.3);
-      }
-    }
-
     .actions-box {
       display: flex;
       gap: 1rem;

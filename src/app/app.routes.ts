@@ -13,6 +13,7 @@ import { UserListComponent } from './features/admin/user-list/user-list.componen
 import { ShowUserComponent } from './features/admin/show-user/show-user.component';
 import { AdminCarListComponent } from './features/admin/admin-car-list/admin-car-list.component';
 import { AdminShowCarComponent } from './features/admin/admin-show-car/admin-show-car.component';
+import { AdminUpdateCarComponent } from './features/admin/admin-update-car/admin-update-car.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
@@ -49,7 +50,8 @@ export const routes: Routes = [
       { path: 'users', component: UserListComponent },
       { path: 'users/:id', component: ShowUserComponent },
       { path: 'cars', component: AdminCarListComponent },
-      { path: 'cars/:id', component: AdminShowCarComponent }
+      { path: 'cars/:id', component: AdminShowCarComponent },
+      { path: 'update-car/:id', component: AdminUpdateCarComponent }
     ]
   },
   { path: '**', redirectTo: '' }

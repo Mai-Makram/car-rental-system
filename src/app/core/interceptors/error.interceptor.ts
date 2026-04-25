@@ -7,17 +7,16 @@ import { AuthService } from '../services/auth.service';
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
+  const isAuthRequest = req.url.includes('/login') || req.url.includes('/register');
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      // إذا كان الخطأ 401 (غير مصرح به) فهذا يعني أن التوكن انتهى أو غير صالح
-      if (error.status === 401) {
+      if (error.status === 401 && !isAuthRequest) {
         console.warn('Unauthorized request - Logging out...');
-        authService.logout(); // مسح التوكن وتنبيه السيرفر
+        authService.logout();
         router.navigate(['/login']);
       }
 
-      // تمرير الخطأ للمكون ليتم عرضه للمستخدم إذا لزم الأمر
       return throwError(() => error);
     })
   );

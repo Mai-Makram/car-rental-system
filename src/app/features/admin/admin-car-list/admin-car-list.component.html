@@ -15,7 +15,6 @@
     </div>
   </div>
 
-  <!-- Filters Row -->
   <div class="filters-row">
     <div class="filter-group">
       <label>Brand</label>
@@ -100,7 +99,11 @@
                 <td>
                   <div class="action-btns">
                     <button class="btn-view" [routerLink]="['/admin/cars', car.id]">
-                      View Details
+                      View
+                    </button>
+                    
+                    <button class="btn-update" [routerLink]="['/admin/update-car', car.id]">
+                      Update
                     </button>
                   </div>
                 </td>
@@ -120,7 +123,6 @@
         </table>
       </div>
 
-      <!-- Pagination Footer -->
       <div class="pagination-footer">
         <div class="page-info">
           Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>

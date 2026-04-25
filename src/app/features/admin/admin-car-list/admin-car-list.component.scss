@@ -165,23 +165,43 @@
     &.maintenance { background: #fef2f2; color: #ef4444; }
   }
 
-  .action-btns {
-    .btn-view {
+.action-btns {
+    display: flex;
+    gap: 0.8rem; // إضافة مسافة بين الزرارين
+
+    .btn-view, .btn-update {
       padding: 0.5rem 1rem;
       background: white;
       border: 1px solid #e2e8f0;
-      color: #007aff;
       border-radius: 8px;
       font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    // تنسيق زرار العرض (أزرق كما هو)
+    .btn-view {
+      color: #007aff;
       &:hover {
         background: #007aff;
         color: white;
         border-color: #007aff;
         box-shadow: 0 4px 10px rgba(0,122,255,0.15);
+      }
+    }
+
+    // تنسيق زرار التعديل (برتقالي ليناسب الأكشن)
+    .btn-update {
+      color: #f59e0b; // لون برتقالي احترافي (Amber)
+      &:hover {
+        background: #f59e0b;
+        color: white;
+        border-color: #f59e0b;
+        box-shadow: 0 4px 10px rgba(245,158,11,0.15);
       }
     }
   }

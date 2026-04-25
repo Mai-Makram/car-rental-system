@@ -62,4 +62,8 @@ export class AdminDataService {
 
     return this.apiService.getWithParams('admin/cars', params);
   }
+
+  updateCar(id: number | string, payload: Record<string, unknown>): Observable<any> {
+    return this.apiService.put(`admin/cars/${id}`, payload);
+  }
 }

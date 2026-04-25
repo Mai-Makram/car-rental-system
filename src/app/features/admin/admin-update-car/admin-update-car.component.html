@@ -1,0 +1,96 @@
+<div class="update-car-page">
+  <div class="page-head">
+    <button routerLink="/admin/cars" class="back-btn">Back to Cars</button>
+    <div class="title-block">
+      <h1>Update Car</h1>
+      <p>Edit the car details and save your changes.</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="state-card loading-card">
+      <div class="spinner"></div>
+      <p>Loading car data...</p>
+    </div>
+  } @else {
+    <div class="form-shell">
+      <div class="summary-card">
+        <span class="eyebrow">Admin Panel</span>
+        <h2>Vehicle Profile</h2>
+        <p>Review the current vehicle details and update only the daily price and mileage.</p>
+      </div>
+
+      <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="form-card">
+        @if (errorMessage()) {
+          <div class="message error">{{ errorMessage() }}</div>
+        }
+
+        @if (successMessage()) {
+          <div class="message success">{{ successMessage() }}</div>
+        }
+
+        <div class="readonly-grid">
+          <div class="readonly-field">
+            <span>ID</span>
+            <strong>#{{ car()?.id }}</strong>
+          </div>
+
+          <div class="readonly-field">
+            <span>Name</span>
+            <strong>{{ car()?.name || '-' }}</strong>
+          </div>
+
+          <div class="readonly-field">
+            <span>Brand</span>
+            <strong>{{ car()?.brand || '-' }}</strong>
+          </div>
+
+          <div class="readonly-field">
+            <span>Model</span>
+            <strong>{{ car()?.model || '-' }}</strong>
+          </div>
+
+          <div class="readonly-field">
+            <span>Created At</span>
+            <strong>{{ car()?.created_at ? (car()?.created_at | date:'medium') : '-' }}</strong>
+          </div>
+
+          <div class="readonly-field">
+            <span>Updated At</span>
+            <strong>{{ car()?.updated_at ? (car()?.updated_at | date:'medium') : '-' }}</strong>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <h3>Editable Fields</h3>
+          <p>Only the daily price and kilometers can be edited here.</p>
+        </div>
+
+        <div class="grid two-cols">
+          <label class="field">
+            <span>Kilometers</span>
+            <input type="number" formControlName="kilometers" placeholder="20000">
+            @if (carForm.controls.kilometers.touched && carForm.controls.kilometers.invalid) {
+              <small>Kilometers cannot be negative.</small>
+            }
+          </label>
+
+          <label class="field">
+            <span>Price Per Day</span>
+            <input type="number" formControlName="price_per_day" placeholder="150.00">
+            @if (carForm.controls.price_per_day.touched && carForm.controls.price_per_day.invalid) {
+              <small>Price per day must be greater than 0.</small>
+            }
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="secondary-btn" [routerLink]="['/admin/cars']">Cancel</button>
+          <button type="submit" class="primary-btn" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>
