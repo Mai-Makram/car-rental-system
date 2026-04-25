@@ -148,3 +148,29 @@
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+// Mobile Responsiveness
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 1rem;
+  }
+
+  .profile-header {
+    .profile-main {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 2rem 2rem;
+      gap: 1rem;
+      
+      .avatar-large { margin-top: -40px; }
+      .user-titles { flex: 1; }
+      .header-actions { width: 100%; }
+    }
+  }
+  
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
