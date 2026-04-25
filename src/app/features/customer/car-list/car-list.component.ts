@@ -3,7 +3,7 @@ import { CustomerDataService } from '../services/customer-data.service';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
@@ -15,6 +15,7 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 })
 export class CarListComponent implements OnInit {
   private customerService = inject(CustomerDataService);
+  private router = inject(Router);
 
   // State using Signals
   cars = signal<any[]>([]);

@@ -41,7 +41,6 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>{{ 'Image' | t }}</th>
           <th>{{ 'Car Name' | t }}</th>
           <th>{{ 'Brand' | t }}</th>
           <th>{{ 'Model' | t }}</th>
@@ -55,7 +54,6 @@
         @for (car of cars(); track car.id) {
         <tr>
           <td>#{{ car.id }}</td>
-          <td><img class="table-img" [src]="car.image || 'assets/images/default-car.jpg'" [alt]="car.name" loading="lazy"></td>
           <td><strong>{{ car.name }}</strong></td>
           <td>{{ car.brand }}</td>
           <td>{{ car.model }}</td>

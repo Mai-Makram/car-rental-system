@@ -37,7 +37,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
+    if (this.loginForm.valid && !this.isLoading()) {
       this.isLoading.set(true);
       this.errorMessage.set('');
       
