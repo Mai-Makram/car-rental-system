@@ -41,6 +41,13 @@ export class AdminDataService {
   }
 
   /**
+   * جلب بيانات سيارة واحدة
+   */
+  getCarDetails(id: number | string): Observable<any> {
+    return this.apiService.get(`admin/cars/${id}`);
+  }
+
+  /**
    * جلب قائمة السيارات
    */
   getCars(page: number = 1, perPage: number = 15, search: string = '', brand: string = '', minPrice: string = '', maxPrice: string = ''): Observable<any> {
