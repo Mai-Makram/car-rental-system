@@ -77,14 +77,37 @@
                 </td>
                 <td>
                   <div class="action-btns">
-                    <button class="btn-icon" title="Edit User">✏️</button>
-                    <button class="btn-icon delete" title="Suspend User" (click)="toggleUserStatus(user.id)">🚫</button>
+                    <button class="btn-view" [routerLink]="['/admin/users', user.id]">
+                      View Profile
+                    </button>
                   </div>
                 </td>
               </tr>
             }
           </tbody>
         </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="pagination-footer">
+        <div class="page-info">
+          Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span> (Total: <span>{{ totalUsers() }}</span> users)
+        </div>
+        <div class="pagination-controls">
+          <button class="btn-page nav" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
+            Previous
+          </button>
+          <div class="numbers">
+            @for (page of getPages(); track page) {
+              <button class="btn-page num" [class.active]="page === currentPage()" (click)="onPageChange(page)">
+                {{ page }}
+              </button>
+            }
+          </div>
+          <button class="btn-page nav" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
+            Next
+          </button>
+        </div>
       </div>
     }
   </div>

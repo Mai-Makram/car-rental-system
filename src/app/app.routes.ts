@@ -10,6 +10,7 @@ import { ShowOrderComponent } from './features/customer/show-order/show-order.co
 import { CreateOrderComponent } from './features/customer/create-order/create-order.component';
 import { InstallmentListComponent } from './features/customer/installment-list/installment-list.component';
 import { UserListComponent } from './features/admin/user-list/user-list.component';
+import { ShowUserComponent } from './features/admin/show-user/show-user.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
@@ -42,7 +43,8 @@ export const routes: Routes = [
     path: 'admin',
     canActivate: [authGuard], // سنحوله لـ adminGuard لاحقاً
     children: [
-      { path: 'users', component: UserListComponent }
+      { path: 'users', component: UserListComponent },
+      { path: 'users/:id', component: ShowUserComponent }
     ]
   }
 ];

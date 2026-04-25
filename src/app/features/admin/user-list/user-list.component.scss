@@ -154,19 +154,86 @@
   .action-btns {
     display: flex;
     gap: 0.8rem;
-    .btn-icon {
-      background: #f1f5f9;
-      border: none;
-      width: 32px;
-      height: 32px;
+    
+    .btn-view {
+      padding: 0.5rem 1rem;
+      background: white;
+      border: 1px solid #e2e8f0;
+      color: #007aff;
       border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       transition: all 0.2s;
-      &:hover { background: #e2e8f0; }
-      &.delete:hover { background: #fee2e2; color: #ef4444; }
+      white-space: nowrap;
+
+      &:hover {
+        background: #007aff;
+        color: white;
+        border-color: #007aff;
+        box-shadow: 0 4px 10px rgba(0, 122, 255, 0.15);
+      }
+    }
+  }
+}
+
+.pagination-footer {
+  padding: 1.5rem 2rem;
+  background: #fcfcfc;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .page-info {
+    font-size: 0.85rem;
+    color: #64748b;
+    span { font-weight: 700; color: #0f172a; }
+  }
+
+  .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+
+    .numbers {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .btn-page {
+      padding: 0.6rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      color: #64748b;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover:not(:disabled) { border-color: #007aff; color: #007aff; background: #f0f7ff; }
+      &:disabled { opacity: 0.4; cursor: not-allowed; }
+
+      &.num {
+        width: 38px;
+        padding: 0;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        &.active {
+          background: #007aff;
+          color: white;
+          border-color: #007aff;
+          box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2);
+        }
+      }
+
+      &.nav {
+        padding: 0.6rem 1.2rem;
+      }
     }
   }
 }
