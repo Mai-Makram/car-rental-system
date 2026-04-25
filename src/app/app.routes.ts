@@ -9,10 +9,12 @@ import { OrderListComponent } from './features/customer/order-list/order-list.co
 import { ShowOrderComponent } from './features/customer/show-order/show-order.component';
 import { CreateOrderComponent } from './features/customer/create-order/create-order.component';
 import { InstallmentListComponent } from './features/customer/installment-list/installment-list.component';
+import { AdminLoginComponent } from './features/admin/auth/login/admin-login.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
+  { path: 'admin/login', component: AdminLoginComponent, canActivate: [guestGuard] },
   {
     path: '',
     component: AuthLayoutComponent,

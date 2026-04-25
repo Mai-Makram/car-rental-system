@@ -1,0 +1,51 @@
+<div class="admin-login-page">
+  <div class="login-card">
+    <div class="card-header">
+      <div class="logo">🛡️</div>
+      <h1>Admin Portal</h1>
+      <p>Secure access for car rental management</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      @if (errorMessage()) {
+        <div class="error-alert">
+          <span>⚠️</span> {{ errorMessage() }}
+        </div>
+      }
+
+      <div class="form-group">
+        <label>Admin Email</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            formControlName="email" 
+            placeholder="admin@rental.com"
+            [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            formControlName="password" 
+            placeholder="••••••••"
+            [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loginForm.invalid || isLoading()">
+        @if (isLoading()) {
+          <span class="spinner"></span> Verifying...
+        } @else {
+          Access Dashboard
+        }
+      </button>
+    </form>
+
+    <div class="card-footer">
+      <a routerLink="/login">Back to Customer Login</a>
+    </div>
+  </div>
+</div>
