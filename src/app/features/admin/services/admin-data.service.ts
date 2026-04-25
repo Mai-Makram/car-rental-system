@@ -71,13 +71,24 @@ export class AdminDataService {
     return this.apiService.delete(`admin/cars/${id}`);
   }
 
-  getOrders(page: number = 1, perPage: number = 15, search: string = '', status: string = ''): Observable<any> {
+  getOrders(
+    page: number = 1,
+    perPage: number = 15,
+    userId: string = '',
+    carId: string = '',
+    paymentType: string = '',
+    paymentStatus: string = '',
+    orderType: string = ''
+  ): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('per_page', perPage.toString());
 
-    if (search) params = params.set('search', search);
-    if (status) params = params.set('status', status);
+    if (userId) params = params.set('user_id', userId);
+    if (carId) params = params.set('car_id', carId);
+    if (paymentType) params = params.set('payment_type', paymentType);
+    if (paymentStatus) params = params.set('payment_status', paymentStatus);
+    if (orderType) params = params.set('order_type', orderType);
 
     return this.apiService.getWithParams('admin/orders', params);
   }

@@ -15,12 +15,15 @@ import { AdminDataService } from '../services/admin-data.service';
 export class AdminOrderListComponent implements OnInit, OnDestroy {
   private readonly adminService = inject(AdminDataService);
   private readonly destroy$ = new Subject<void>();
-  private readonly searchSubject = new Subject<string>();
+  private readonly filterSubject = new Subject<void>();
 
   readonly orders = signal<any[]>([]);
   readonly isLoading = signal(true);
-  readonly searchTerm = signal('');
-  readonly selectedStatus = signal('');
+  readonly userId = signal('');
+  readonly carId = signal('');
+  readonly paymentType = signal('');
+  readonly paymentStatus = signal('');
+  readonly orderType = signal('');
   readonly currentPage = signal(1);
   readonly totalPages = signal(1);
   readonly totalOrders = signal(0);
@@ -29,12 +32,10 @@ export class AdminOrderListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadOrders();
 
-    this.searchSubject.pipe(
+    this.filterSubject.pipe(
       debounceTime(400),
-      distinctUntilChanged(),
       takeUntil(this.destroy$)
-    ).subscribe((term) => {
-      this.searchTerm.set(term);
+    ).subscribe(() => {
       this.loadOrders(1);
     });
   }
@@ -47,7 +48,15 @@ export class AdminOrderListComponent implements OnInit, OnDestroy {
   loadOrders(page: number = 1): void {
     this.isLoading.set(true);
 
-    this.adminService.getOrders(page, this.perPage(), this.searchTerm(), this.selectedStatus()).subscribe({
+    this.adminService.getOrders(
+      page,
+      this.perPage(),
+      this.userId(),
+      this.carId(),
+      this.paymentType(),
+      this.paymentStatus(),
+      this.orderType()
+    ).subscribe({
       next: (response) => {
         this.orders.set(response.data || response);
         this.currentPage.set(page);
@@ -62,13 +71,12 @@ export class AdminOrderListComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSearchInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.searchSubject.next(value);
+  onFilterInput(): void {
+    this.filterSubject.next();
   }
 
   onFilterChange(): void {
-    this.loadOrders(1);
+    this.filterSubject.next();
   }
 
   onPageChange(page: number): void {
