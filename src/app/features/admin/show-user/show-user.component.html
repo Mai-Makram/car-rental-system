@@ -4,81 +4,74 @@
   </div>
 
   @if (isLoading()) {
-    <div class="loader-box">
-      <div class="spinner"></div>
-      <p>Loading user details...</p>
-    </div>
+  <div class="loader-box">
+    <div class="spinner"></div>
+    <p>Loading user details...</p>
+  </div>
   } @else if (user()) {
-    <div class="profile-header">
-      <div class="cover-photo"></div>
-      <div class="profile-main">
-        <div class="avatar-large">{{ user().name?.charAt(0) }}</div>
-        <div class="user-titles">
-          <h1>{{ user().name }}</h1>
-          <span class="role-badge" [class]="user().role">{{ user().role }}</span>
+  <div class="profile-header">
+    <div class="cover-photo"></div>
+    <div class="profile-main">
+      <div class="avatar-large">{{ user().name?.charAt(0) }}</div>
+      <div class="user-titles">
+        <h1>{{ user().name }}</h1>
+        <span class="role-badge" [class]="user().role">{{ user().role }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-grid">
+    <!-- Info Card -->
+    <div class="info-card">
+      <div class="card-header">
+        <h3>Personal Information</h3>
+      </div>
+      <div class="details-list">
+        <div class="detail-item">
+          <span class="label">Full Name</span>
+          <span class="value">{{ user().name }}</span>
         </div>
-        <div class="header-actions">
-          <button 
-            class="btn-status" 
-            [class.active]="user().status === 'active'"
-            (click)="toggleStatus()">
-            {{ user().status === 'active' ? '🚫 Suspend User' : '✅ Activate User' }}
-          </button>
+        <div class="detail-item">
+          <span class="label">Email Address</span>
+          <span class="value">{{ user().email }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Phone Number</span>
+          <span class="value">{{ user().phone || 'Not provided' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Country</span>
+          <span class="value">{{ user().country || 'N/A' }}</span>
         </div>
       </div>
     </div>
 
-    <div class="profile-grid">
-      <!-- Info Card -->
-      <div class="info-card">
-        <div class="card-header">
-          <h3>Personal Information</h3>
-        </div>
-        <div class="details-list">
-          <div class="detail-item">
-            <span class="label">Full Name</span>
-            <span class="value">{{ user().name }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Email Address</span>
-            <span class="value">{{ user().email }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Phone Number</span>
-            <span class="value">{{ user().phone || 'Not provided' }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Country</span>
-            <span class="value">{{ user().country || 'N/A' }}</span>
-          </div>
-        </div>
+    <!-- Stats Card -->
+    <div class="stats-card">
+      <div class="card-header">
+        <h3>Account Activity</h3>
       </div>
-
-      <!-- Stats Card -->
-      <div class="stats-card">
-        <div class="card-header">
-          <h3>Account Activity</h3>
+      <div class="activity-stats">
+        <div class="stat-box">
+          <span class="num">{{ user().orders_count || 0 }}</span>
+          <span class="txt">Total Orders</span>
         </div>
-        <div class="activity-stats">
-          <div class="stat-box">
-            <span class="num">{{ user().orders_count || 0 }}</span>
-            <span class="txt">Total Orders</span>
-          </div>
-          <div class="stat-box">
-            <span class="num">${{ user().wallet || 0 }}</span>
-            <span class="txt">Wallet Balance</span>
-          </div>
-          <div class="stat-box">
-            <span class="num">{{ user().join_date | date:'mediumDate' }}</span>
-            <span class="txt">Member Since</span>
-          </div>
+        <div class="stat-box">
+          <span class="num">${{ user().wallet || 0 }}</span>
+          <span class="txt">Wallet Balance</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">{{ user().
+            created_at | date:'mediumDate' }}</span>
+          <span class="txt">Member Since</span>
         </div>
       </div>
     </div>
+  </div>
   } @else {
-    <div class="error-state">
-      <h2>User not found</h2>
-      <button routerLink="/admin/users" class="btn-primary">Return to List</button>
-    </div>
+  <div class="error-state">
+    <h2>User not found</h2>
+    <button routerLink="/admin/users" class="btn-primary">Return to List</button>
+  </div>
   }
 </div>
