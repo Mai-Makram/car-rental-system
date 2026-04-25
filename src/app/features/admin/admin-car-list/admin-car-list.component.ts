@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AdminDataService } from '../services/admin-data.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-admin-car-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './admin-car-list.component.html',
   styleUrl: './admin-car-list.component.scss'
 })
@@ -21,6 +22,17 @@ export class AdminCarListComponent implements OnInit {
   isLoading = signal<boolean>(true);
   deletingCarId = signal<number | string | null>(null);
   carPendingDelete = signal<any | null>(null);
+  isCreateModalOpen = signal<boolean>(false);
+  isCreatingCar = signal<boolean>(false);
+  createCarError = signal<string>('');
+  createCarSuccess = signal<string>('');
+  newCar = signal({
+    name: '',
+    brand: '',
+    model: '',
+    kilometers: '',
+    price_per_day: ''
+  });
 
   // الفلاتر والترقيم
   searchTerm = signal<string>('');
@@ -99,6 +111,68 @@ export class AdminCarListComponent implements OnInit {
     }
 
     this.carPendingDelete.set(car);
+  }
+
+  openCreateModal(): void {
+    this.createCarError.set('');
+    this.createCarSuccess.set('');
+    this.newCar.set({
+      name: '',
+      brand: '',
+      model: '',
+      kilometers: '',
+      price_per_day: ''
+    });
+    this.isCreateModalOpen.set(true);
+  }
+
+  closeCreateModal(): void {
+    if (this.isCreatingCar()) {
+      return;
+    }
+
+    this.isCreateModalOpen.set(false);
+  }
+
+  updateNewCarField(field: keyof ReturnType<typeof this.newCar>, value: string): void {
+    this.newCar.update((current) => ({
+      ...current,
+      [field]: value
+    }));
+  }
+
+  createCar(): void {
+    const car = this.newCar();
+    this.createCarError.set('');
+    this.createCarSuccess.set('');
+
+    if (!car.name.trim() || !car.brand.trim() || !car.model.trim() || !car.price_per_day) {
+      this.createCarError.set('Please fill all required fields.');
+      return;
+    }
+
+    this.isCreatingCar.set(true);
+
+    const payload = {
+      name: car.name.trim(),
+      brand: car.brand.trim(),
+      model: car.model.trim(),
+      kilometers: car.kilometers ? Number(car.kilometers) : 0,
+      price_per_day: Number(car.price_per_day)
+    };
+
+    this.adminService.createCar(payload).subscribe({
+      next: () => {
+        this.isCreatingCar.set(false);
+        this.createCarSuccess.set('Car added successfully.');
+        this.isCreateModalOpen.set(false);
+        this.loadCars(1);
+      },
+      error: (err) => {
+        this.isCreatingCar.set(false);
+        this.createCarError.set(err.error?.message || 'Failed to add car.');
+      }
+    });
   }
 
   closeDeleteModal(): void {

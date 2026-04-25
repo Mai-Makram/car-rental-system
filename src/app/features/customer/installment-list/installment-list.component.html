@@ -8,8 +8,8 @@
 
   <div class="header-section">
     <div class="title-box">
-      <h1>Payment Installments</h1>
-      <p>Manage and track your scheduled payments</p>
+      <h1>{{ 'Payment Installments' | t }}</h1>
+      <p>{{ 'Manage and track your scheduled payments' | t }}</p>
     </div>
   </div>
 
@@ -17,7 +17,7 @@
     @if (isLoading()) {
       <div class="loader-box">
         <div class="spinner"></div>
-        <p>Loading your installments...</p>
+        <p>{{ 'Loading your installments...' | t }}</p>
       </div>
     } @else {
       @if (installments().length > 0) {
@@ -25,12 +25,12 @@
           <table class="modern-table">
             <thead>
               <tr>
-                <th>Order ID</th>
-                <th>Car</th>
-                <th>Due Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>{{ 'Order ID' | t }}</th>
+                <th>{{ 'Car' | t }}</th>
+                <th>{{ 'Due Date' | t }}</th>
+                <th>{{ 'Amount' | t }}</th>
+                <th>{{ 'Status' | t }}</th>
+                <th>{{ 'Actions' | t }}</th>
               </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                   <td><span class="order-link">{{ inst.order_id }}</span></td>
                   <td>
                     <div class="car-brief">
-                      <span class="name">{{ inst.order?.car?.name || 'Car' }}</span>
+                      <span class="name">{{ inst.order?.car?.name || ('Car' | t) }}</span>
                       <span class="brand">{{ inst.order?.car?.brand }}</span>
                     </div>
                   </td>
@@ -56,10 +56,10 @@
                         class="btn-pay" 
                         (click)="payInstallment(inst.id)"
                         [disabled]="payingId() !== null">
-                        {{ payingId() === inst.id ? 'Processing...' : 'Pay Now' }}
+                        {{ payingId() === inst.id ? ('Processing...' | t) : ('Pay Now' | t) }}
                       </button>
                     } @else {
-                      <span class="paid-label">Completed</span>
+                      <span class="paid-label">{{ 'Completed' | t }}</span>
                     }
                   </td>
                 </tr>
@@ -71,12 +71,12 @@
         <!-- Pagination Section -->
         <div class="pagination-section">
           <div class="page-info">
-            Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
+            {{ 'Showing page' | t }} <span>{{ currentPage() }}</span> {{ 'of' | t }} <span>{{ totalPages() }}</span>
           </div>
 
           <div class="pagination-controls">
             <button class="page-btn prev" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
-              Previous
+              {{ 'Previous' | t }}
             </button>
 
             <div class="page-numbers">
@@ -89,16 +89,16 @@
 
             <button class="page-btn next" [disabled]="currentPage() === totalPages()"
               (click)="onPageChange(currentPage() + 1)">
-              Next
+              {{ 'Next' | t }}
             </button>
           </div>
         </div>
       } @else {
         <div class="empty-state">
           <div class="icon">💰</div>
-          <h2>No installments found</h2>
-          <p>You don't have any active installment plans at the moment.</p>
-          <button routerLink="/customer/cars" class="btn-primary">Browse Cars</button>
+          <h2>{{ 'No installments found' | t }}</h2>
+          <p>{{ "You don't have any active installment plans at the moment." | t }}</p>
+          <button routerLink="/customer/cars" class="btn-primary">{{ 'Browse Cars' | t }}</button>
         </div>
       }
     }

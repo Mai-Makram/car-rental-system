@@ -1,6 +1,6 @@
 <div class="auth-form">
-  <h2>Create Account</h2>
-  <p class="subtitle">Join our premium car rental community</p>
+  <h2>{{ 'register.createAccount' | t }}</h2>
+  <p class="subtitle">{{ 'register.subtitle' | t }}</p>
 
   @if (errorMessage) {
     <div class="alert-error">
@@ -10,38 +10,38 @@
 
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" formControlName="name" placeholder="John Doe">
+      <label for="name">{{ 'register.fullName' | t }}</label>
+      <input type="text" id="name" formControlName="name" [placeholder]="'register.johnDoe' | t">
       @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
         <div class="field-error">
           @if (registerForm.get('name')?.errors?.['required']) {
-            Name is required.
+            {{ 'register.nameRequired' | t }}
           } @else if (registerForm.get('name')?.errors?.['minlength']) {
-            Name must be at least 3 characters.
+            {{ 'register.nameMin' | t }}
           }
         </div>
       }
     </div>
 
     <div class="form-group">
-      <label for="email">Email Address</label>
+      <label for="email">{{ 'login.email' | t }}</label>
       <input type="email" id="email" formControlName="email" placeholder="name@company.com">
       @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
         <div class="field-error">
-          Please enter a valid email.
+          {{ 'login.emailError' | t }}
         </div>
       }
     </div>
 
     <div class="form-group">
-      <label for="phone">Phone Number</label>
+      <label for="phone">{{ 'register.phone' | t }}</label>
       <input type="tel" id="phone" formControlName="phone" placeholder="+1234567890">
       @if (registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid) {
         <div class="field-error">
           @if (registerForm.get('phone')?.errors?.['required']) {
-            Phone number is required.
+            {{ 'register.phoneRequired' | t }}
           } @else {
-            Please enter a valid phone number.
+            {{ 'register.phoneInvalid' | t }}
           }
         </div>
       }
@@ -49,32 +49,32 @@
 
     <div class="form-row">
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{ 'login.password' | t }}</label>
         <input type="password" id="password" formControlName="password" placeholder="••••••••">
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
           <div class="field-error">
-            Min 6 characters.
+            {{ 'register.passwordMin' | t }}
           </div>
         }
       </div>
 
       <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
+        <label for="confirm-password">{{ 'register.confirmPassword' | t }}</label>
         <input type="password" id="confirm-password" formControlName="password_confirmation" placeholder="••••••••">
         @if (registerForm.get('password_confirmation')?.touched && registerForm.hasError('mismatch')) {
           <div class="field-error">
-            Passwords don't match.
+            {{ 'register.passwordMismatch' | t }}
           </div>
         }
       </div>
     </div>
 
     <div class="form-group">
-      <label for="country">Country</label>
-      <input type="text" id="country" formControlName="country" placeholder="Select your country">
+      <label for="country">{{ 'register.country' | t }}</label>
+      <input type="text" id="country" formControlName="country" [placeholder]="'register.selectCountry' | t">
       @if (registerForm.get('country')?.touched && registerForm.get('country')?.invalid) {
         <div class="field-error">
-          Country is required.
+          {{ 'register.countryRequired' | t }}
         </div>
       }
     </div>
@@ -82,15 +82,15 @@
     <div class="form-actions">
       <button type="submit" class="btn-primary" [disabled]="registerForm.invalid || isLoading">
         @if (!isLoading) {
-          <span>Create Account</span>
+          <span>{{ 'register.createAccount' | t }}</span>
         } @else {
-          <span>Registering...</span>
+          <span>{{ 'register.registering' | t }}</span>
         }
       </button>
     </div>
   </form>
 
   <div class="auth-footer">
-    <p>Already have an account? <a routerLink="/login">Sign in instead</a></p>
+    <p>{{ 'register.alreadyHaveAccount' | t }} <a routerLink="/login">{{ 'register.signInInstead' | t }}</a></p>
   </div>
 </div>

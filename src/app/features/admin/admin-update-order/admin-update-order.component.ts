@@ -3,6 +3,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AdminDataService } from '../services/admin-data.service';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-admin-update-order',
@@ -16,6 +17,7 @@ export class AdminUpdateOrderComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly adminService = inject(AdminDataService);
+  private readonly languageService = inject(LanguageService);
 
   readonly order = signal<any | null>(null);
   readonly isLoading = signal(true);
@@ -32,7 +34,7 @@ export class AdminUpdateOrderComponent implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id');
 
     if (!this.orderId) {
-      this.errorMessage.set('Order id is missing.');
+      this.errorMessage.set(this.languageService.translate('Order id is missing.'));
       this.isLoading.set(false);
       return;
     }
@@ -52,7 +54,7 @@ export class AdminUpdateOrderComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading order for update:', err);
-        this.errorMessage.set(err.error?.message || 'Unable to load order data.');
+        this.errorMessage.set(err.error?.message || this.languageService.translate('Unable to load order data.'));
         this.isLoading.set(false);
       }
     });
@@ -78,7 +80,7 @@ export class AdminUpdateOrderComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error updating order:', err);
-        this.errorMessage.set(err.error?.message || 'Failed to update order.');
+        this.errorMessage.set(err.error?.message || this.languageService.translate('Failed to update order.'));
         this.isSubmitting.set(false);
       }
     });

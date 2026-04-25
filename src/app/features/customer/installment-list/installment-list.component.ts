@@ -2,16 +2,19 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CustomerDataService } from '../services/customer-data.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-installment-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TranslatePipe],
   templateUrl: './installment-list.component.html',
   styleUrl: './installment-list.component.scss'
 })
 export class InstallmentListComponent implements OnInit {
   private customerService = inject(CustomerDataService);
+  private languageService = inject(LanguageService);
 
   installments = signal<any[]>([]);
   isLoading = signal<boolean>(true);
@@ -61,7 +64,7 @@ export class InstallmentListComponent implements OnInit {
     this.customerService.payInstallment(id).subscribe({
       next: (response) => {
         this.feedback.set({ 
-          message: response.message || 'Payment completed successfully!', 
+          message: response.message || this.languageService.translate('Payment completed successfully!'), 
           type: 'success' 
         });
         this.customerService.refreshProfile(); // تحديث المحفظة في الهيدر فوراً
@@ -71,7 +74,7 @@ export class InstallmentListComponent implements OnInit {
       },
       error: (err) => {
         this.feedback.set({ 
-          message: err.error?.message || 'Payment failed. Please try again.', 
+          message: err.error?.message || this.languageService.translate('Payment failed. Please try again.'), 
           type: 'error' 
         });
         this.payingId.set(null);

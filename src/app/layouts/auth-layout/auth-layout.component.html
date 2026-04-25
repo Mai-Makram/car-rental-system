@@ -1,9 +1,17 @@
 <div class="auth-container">
+  <div class="top-controls">
+    <button class="control-button" type="button" (click)="toggleTheme()">
+      {{ isDarkTheme() ? ('common.light' | t) : ('common.dark' | t) }}
+    </button>
+    <button class="control-button" type="button" (click)="toggleLanguage()">
+      {{ currentLanguage() === 'en' ? ('common.arabic' | t) : ('common.english' | t) }}
+    </button>
+  </div>
   <div class="auth-image-side">
     <div class="overlay"></div>
     <div class="content">
-      <h1>Drive Your Dream</h1>
-      <p>Experience the ultimate luxury with our premium car rental service.</p>
+      <h1>{{ 'authLayout.title' | t }}</h1>
+      <p>{{ 'authLayout.subtitle' | t }}</p>
     </div>
   </div>
   <div class="auth-form-side">

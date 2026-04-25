@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { AdminDataService } from '../services/admin-data.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslatePipe],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })

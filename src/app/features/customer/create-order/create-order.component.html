@@ -1,13 +1,13 @@
 <div class="create-order-container">
   <div class="page-header">
-    <h1>Complete Your Booking</h1>
-    <p>Review the car details and fill in the rental information.</p>
+    <h1>{{ 'Complete Your Booking' | t }}</h1>
+    <p>{{ 'Review the car details and fill in the rental information.' | t }}</p>
   </div>
 
   <div class="booking-grid">
     <!-- Left Side: Simple Car Summary -->
     <div class="car-summary-card">
-      <h3>Selected Vehicle</h3>
+      <h3>{{ 'Selected Vehicle' | t }}</h3>
       @if (isLoading()) {
         <div class="skeleton-summary">
           <div class="skeleton-line"></div>
@@ -21,7 +21,7 @@
               <h2 class="name">{{ car().name }}</h2>
               <p class="model">{{ car().model }} • {{ car().year }}</p>
               <div class="price-tag">
-                <span class="label">Daily Rate:</span>
+                <span class="label">{{ 'Daily Rate:' | t }}</span>
                 <span class="value">${{ car().price_per_day }}</span>
               </div>
             </div>
@@ -41,43 +41,43 @@
 
       <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
         <div class="form-section">
-          <h3>Rental Dates</h3>
+          <h3>{{ 'Rental Dates' | t }}</h3>
           <div class="form-row">
             <div class="form-group">
-              <label>Delivery Date</label>
+              <label>{{ 'Delivery Date' | t }}</label>
               <input type="date" formControlName="delivery_date">
             </div>
             <div class="form-group">
-              <label>Receiving Date</label>
+              <label>{{ 'Receiving Date' | t }}</label>
               <input type="date" formControlName="receiving_date">
             </div>
           </div>
         </div>
 
         <div class="form-section">
-          <h3>Payment & Order Type</h3>
+          <h3>{{ 'Payment & Order Type' | t }}</h3>
           <div class="form-row">
             <div class="form-group">
-              <label>Payment Method</label>
+              <label>{{ 'Payment Method' | t }}</label>
               <select formControlName="payment_type">
-                <option value="" disabled selected>Choose Method</option>
-                <option value="cash">Cash</option>
+                <option value="" disabled selected>{{ 'Choose Method' | t }}</option>
+                <option value="cash">{{ 'Cash' | t }}</option>
                 <option value="visa">Visa</option>
                 <option value="tamara">Tamara</option>
               </select>
             </div>
             <div class="form-group">
-              <label>Order Type</label>
+              <label>{{ 'Order Type' | t }}</label>
               <select formControlName="order_type">
-                <option value="" disabled selected>Choose Type</option>
-                <option value="full">Full Payment</option>
-                <option value="installments">Installments</option>
+                <option value="" disabled selected>{{ 'Choose Type' | t }}</option>
+                <option value="full">{{ 'Full Payment' | t }}</option>
+                <option value="installments">{{ 'Installments' | t }}</option>
               </select>
               @if (bookingForm.get('payment_type')?.value === 'tamara') {
-                <small class="info-note">Tamara requires installments.</small>
+                <small class="info-note">{{ 'Tamara requires installments.' | t }}</small>
               }
               @if (bookingForm.get('payment_type')?.value === 'cash') {
-                <small class="info-note">Cash requires full payment.</small>
+                <small class="info-note">{{ 'Cash requires full payment.' | t }}</small>
               }
             </div>
           </div>
@@ -85,15 +85,15 @@
 
         @if (bookingForm.get('order_type')?.value === 'installments') {
           <div class="form-section installment-section">
-            <h3>Installment Details</h3>
+            <h3>{{ 'Installment Details' | t }}</h3>
             <div class="form-row">
               <div class="form-group">
-                <label>Down Payment ($)</label>
-                <input type="number" formControlName="down_payment" placeholder="Enter amount">
+                <label>{{ 'Down Payment ($)' | t }}</label>
+                <input type="number" formControlName="down_payment" [placeholder]="'Enter amount' | t">
               </div>
               <div class="form-group">
-                <label>Number of Installments</label>
-                <input type="number" formControlName="number_of_installments" placeholder="e.g. 12 months">
+                <label>{{ 'Number of Installments' | t }}</label>
+                <input type="number" formControlName="number_of_installments" [placeholder]="'e.g. 12 months' | t">
               </div>
             </div>
           </div>
@@ -101,10 +101,10 @@
 
         <div class="form-footer">
           <button type="submit" class="btn-submit" [disabled]="bookingForm.invalid || isSubmitting()">
-            {{ isSubmitting() ? 'Processing...' : 'Confirm Booking' }}
+            {{ isSubmitting() ? ('Processing...' | t) : ('Confirm Booking' | t) }}
           </button>
           <button type="button" class="btn-cancel" routerLink="/customer/cars" [disabled]="isSubmitting()">
-            Cancel
+            {{ 'Cancel' | t }}
           </button>
         </div>
       </form>

@@ -1,19 +1,19 @@
 <div class="admin-container">
   <div class="header-section">
     <div class="title-box">
-      <h1>User Management</h1>
-      <p>Manage and monitor all platform members</p>
+      <h1>{{ 'User Management' | t }}</h1>
+      <p>{{ 'Manage and monitor all platform members' | t }}</p>
     </div>
     <div class="actions-box">
       <div class="filters">
         <select [(ngModel)]="selectedRole" (change)="onFilterChange()">
-          <option value="">All Roles</option>
-          <option value="admin">Admin</option>
-          <option value="customer">Customer</option>
+          <option value="">{{ 'All Roles' | t }}</option>
+          <option value="admin">{{ 'Admin' | t }}</option>
+          <option value="customer">{{ 'Customer' | t }}</option>
         </select>
 
         <select [(ngModel)]="selectedCountry" (change)="onFilterChange()">
-          <option value="">All Countries</option>
+          <option value="">{{ 'All Countries' | t }}</option>
           <option value="Egypt">Egypt</option>
           <option value="Saudi Arabia">Saudi Arabia</option>
           <option value="UAE">UAE</option>
@@ -24,7 +24,7 @@
         <span class="icon">ًں”چ</span>
         <input
           type="text"
-          placeholder="Search by name or email..."
+          [placeholder]="'Search by name or email...' | t"
           (input)="onSearchInput($event)">
       </div>
     </div>
@@ -32,15 +32,15 @@
 
   <div class="stats-overview">
     <div class="stat-card">
-      <span class="label">Total Users</span>
+      <span class="label">{{ 'Total Users' | t }}</span>
       <span class="value">{{ totalUsers() }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">Total Pages</span>
+      <span class="label">{{ 'Total Pages' | t }}</span>
       <span class="value">{{ totalPages() }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">Showing Results</span>
+      <span class="label">{{ 'Showing Results' | t }}</span>
       <span class="value">{{ users().length }}</span>
     </div>
   </div>
@@ -55,14 +55,14 @@
         <table class="premium-table">
           <thead>
             <tr>
-              <th>User</th>
-              <th>Role</th>
-              <th>Country</th>
-              <th>Orders</th>
-              <th>Wallet</th>
-              <th>Member Since</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{{ 'User' | t }}</th>
+              <th>{{ 'Role' | t }}</th>
+              <th>{{ 'Country' | t }}</th>
+              <th>{{ 'Orders' | t }}</th>
+              <th>{{ 'Wallet' | t }}</th>
+              <th>{{ 'Member Since' | t }}</th>
+              <th>{{ 'Status' | t }}</th>
+              <th>{{ 'Actions' | t }}</th>
             </tr>
           </thead>
           <tbody>
@@ -84,8 +84,8 @@
                 </td>
                 <td>
                   <div class="meta-stack">
-                    <span class="primary">{{ user.country || 'N/A' }}</span>
-                    <span class="secondary">{{ user.phone || 'No phone' }}</span>
+                    <span class="primary">{{ (user.country || 'N/A') | t }}</span>
+                    <span class="secondary">{{ (user.phone || 'No phone') | t }}</span>
                   </div>
                 </td>
                 <td>
@@ -103,7 +103,7 @@
                 <td>
                   <div class="action-btns">
                     <button class="btn-view" [routerLink]="['/admin/users', user.id]">
-                      View Profile
+                      {{ 'View Profile' | t }}
                     </button>
                   </div>
                 </td>
@@ -113,8 +113,8 @@
                 <td colspan="8">
                   <div class="empty-state">
                     <span class="empty-icon">ًں”چ</span>
-                    <h3>No users found</h3>
-                    <p>Try adjusting your search or filter criteria</p>
+                    <h3>{{ 'No users found' | t }}</h3>
+                    <p>{{ 'Try adjusting your search or filter criteria' | t }}</p>
                   </div>
                 </td>
               </tr>
@@ -125,11 +125,11 @@
 
       <div class="pagination-footer">
         <div class="page-info">
-          Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span> (Total: <span>{{ totalUsers() }}</span> users)
+          {{ 'Showing page' | t }} <span>{{ currentPage() }}</span> {{ 'of' | t }} <span>{{ totalPages() }}</span> ({{ 'Total:' | t }} <span>{{ totalUsers() }}</span> {{ 'users' | t }})
         </div>
         <div class="pagination-controls">
           <button class="btn-page nav" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
-            Previous
+            {{ 'Previous' | t }}
           </button>
           <div class="numbers">
             @for (page of getPages(); track page) {
@@ -139,7 +139,7 @@
             }
           </div>
           <button class="btn-page nav" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
-            Next
+            {{ 'Next' | t }}
           </button>
         </div>
       </div>

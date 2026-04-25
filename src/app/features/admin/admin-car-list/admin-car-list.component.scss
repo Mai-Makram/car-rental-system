@@ -30,6 +30,17 @@
     gap: 1.2rem;
     align-items: center;
 
+    .btn-add-car {
+      border: 1px solid #007aff;
+      background: #007aff;
+      color: #fff;
+      border-radius: 12px;
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
     .search-bar {
       background: white;
       border: 1px solid #e2e8f0;
@@ -419,6 +430,7 @@
   }
 }
 
+
 .modal-badge {
   display: inline-flex;
   align-items: center;
@@ -523,6 +535,7 @@
   .modal-summary {
     grid-template-columns: 1fr;
   }
+
 
   .modal-actions {
     flex-direction: column-reverse;

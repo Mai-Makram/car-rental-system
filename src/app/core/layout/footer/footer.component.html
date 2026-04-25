@@ -5,24 +5,24 @@
         <div class="footer-brand">
           <span class="brand-mark">CR</span>
           <div class="brand-copy">
-            <h3>{{ title() }}</h3>
-            <span class="brand-tagline">Premium Mobility</span>
+            <h3>{{ title() | t }}</h3>
+            <span class="brand-tagline">{{ 'common.premiumMobility' | t }}</span>
           </div>
         </div>
-        <p>{{ description() }}</p>
+        <p>{{ description() | t }}</p>
       </div>
       <div class="footer-links">
         @for (link of links(); track link.label) {
           @if (link.route) {
-            <a [routerLink]="link.route">{{ link.label }}</a>
+            <a [routerLink]="link.route">{{ link.label | t }}</a>
           } @else {
-            <a [href]="link.href || '#'">{{ link.label }}</a>
+            <a [href]="link.href || '#'">{{ link.label | t }}</a>
           }
         }
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; {{ currentYear }} {{ companyName() }} All rights reserved.</p>
+      <p>&copy; {{ currentYear }} {{ companyName() | t }} {{ 'common.rights' | t }}</p>
     </div>
   </div>
 </footer>

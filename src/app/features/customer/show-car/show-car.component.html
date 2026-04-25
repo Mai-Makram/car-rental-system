@@ -2,14 +2,14 @@
   @if (isLoading()) {
     <div class="loader-container">
       <div class="spinner"></div>
-      <p>Loading car details...</p>
+      <p>{{ 'Loading car details...' | t }}</p>
     </div>
   } @else {
     @if (car()) {
       <div class="detail-container">
         <!-- Back Button -->
         <button routerLink="/customer/cars" class="back-link">
-          <i class="icon-back"></i> Back to Fleet
+          <i class="icon-back"></i> {{ 'Back to Fleet' | t }}
         </button>
 
         <div class="main-card no-image">
@@ -22,33 +22,33 @@
             </div>
 
             <div class="price-badge">
-              <span class="label">Rental Rate</span>
+              <span class="label">{{ 'Rental Rate' | t }}</span>
               <span class="price-value">${{ car().price_per_day }}</span>
-              <span class="unit">/ day</span>
+              <span class="unit">{{ '/ day' | t }}</span>
             </div>
 
             <div class="specs-list">
               @if (car().status) {
                 <div class="spec-card">
-                  <label>Availability</label>
+                  <label>{{ 'Availability' | t }}</label>
                   <span class="status" [class.available]="car().status === 'available'">{{ car().status }}</span>
                 </div>
               }
               @if (car().color) {
                 <div class="spec-card">
-                  <label>Color</label>
+                  <label>{{ 'Color' | t }}</label>
                   <span>{{ car().color }}</span>
                 </div>
               }
               @if (car().transmission) {
                 <div class="spec-card">
-                  <label>Gearbox</label>
+                  <label>{{ 'Gearbox' | t }}</label>
                   <span>{{ car().transmission }}</span>
                 </div>
               }
               @if (car().fuel_type) {
                 <div class="spec-card">
-                  <label>Fuel</label>
+                  <label>{{ 'Fuel' | t }}</label>
                   <span>{{ car().fuel_type }}</span>
                 </div>
               }
@@ -56,14 +56,17 @@
 
             @if (car().description) {
               <div class="description-box">
-                <h3>About this car</h3>
+                <h3>{{ 'About this car' | t }}</h3>
                 <p>{{ car().description }}</p>
               </div>
             }
 
             <div class="action-footer">
-              <button class="primary-btn">
-                <span>Book this experience</span>
+              <button
+                class="primary-btn"
+                [routerLink]="['/customer/cars', car().id, 'order']"
+                [title]="'Rent this car' | t">
+                <span>{{ 'Book this experience' | t }}</span>
               </button>
             </div>
           </div>
@@ -71,8 +74,8 @@
       </div>
     } @else {
       <div class="not-found">
-        <h2>Oops! Car not found.</h2>
-        <button routerLink="/customer/cars">Return to Fleet</button>
+        <h2>{{ 'Oops! Car not found.' | t }}</h2>
+        <button routerLink="/customer/cars">{{ 'Return to Fleet' | t }}</button>
       </div>
     }
   }

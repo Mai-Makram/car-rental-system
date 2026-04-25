@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerDataService } from '../services/customer-data.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-create-order',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './create-order.component.html',
   styleUrl: './create-order.component.scss'
 })
@@ -16,6 +18,7 @@ export class CreateOrderComponent implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private customerService = inject(CustomerDataService);
+  private languageService = inject(LanguageService);
 
   bookingForm!: FormGroup;
   car = signal<any>(null);
@@ -114,7 +117,7 @@ export class CreateOrderComponent implements OnInit {
         },
         error: (err) => {
           console.error('Booking Error:', err);
-          this.errorMessage.set(err.error?.message || 'Something went wrong. Please check your dates and try again.');
+          this.errorMessage.set(err.error?.message || this.languageService.translate('Something went wrong. Please check your dates and try again.'));
           this.isSubmitting.set(false);
         }
       });

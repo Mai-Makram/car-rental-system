@@ -21,6 +21,202 @@
   --radius-xl: 1rem;
 }
 
+[data-theme='dark'] {
+  --primary-color: #60a5fa;
+  --primary-hover: #93c5fd;
+  --secondary-color: #94a3b8;
+  --bg-color: #0b1220;
+  --surface-color: #111b2f;
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border-color: #1f2a44;
+  --error-color: #f87171;
+  --success-color: #34d399;
+}
+
+[data-theme='dark'] {
+  .table-card,
+  .detail-card,
+  .info-card,
+  .stats-card,
+  .summary-card,
+  .form-card,
+  .state-card,
+  .main-card,
+  .car-summary-card,
+  .booking-form-card,
+  .header-section,
+  .filters-row,
+  .pagination-footer,
+  .pagination-section,
+  .table-wrapper,
+  .table-responsive,
+  .profile-dropdown,
+  .readonly-field,
+  .form-shell,
+  .page-shell,
+  .admin-container,
+  .orders-container,
+  .cars-container,
+  .installments-container,
+  .show-order-container,
+  .show-car-wrapper {
+    background: var(--surface-color) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-main) !important;
+  }
+
+  .main-header,
+  .main-footer,
+  .auth-form-side,
+  .auth-container,
+  .content-area,
+  .page-head,
+  .page-header {
+    background: var(--bg-color) !important;
+    color: var(--text-main) !important;
+  }
+
+  .title-box p,
+  .subtitle,
+  .meta,
+  .secondary,
+  .label,
+  .txt,
+  .order-date,
+  .brand-tagline,
+  .car-model,
+  .country,
+  .user-role,
+  .page-info,
+  .empty-state p,
+  .not-found p,
+  .info-note,
+  .detail-item .label,
+  .readonly-field span,
+  .summary-item label {
+    color: var(--text-muted) !important;
+  }
+
+  .title-box h1,
+  .name,
+  .user-name,
+  .value,
+  .amount,
+  .price,
+  .price-tag,
+  .date-tag,
+  .date,
+  .primary,
+  .email,
+  .detail-item .value,
+  .readonly-field strong,
+  .summary-item span,
+  .summary-item.total .amount,
+  .stat-card .value,
+  .card-title h3,
+  .section-title h3,
+  .section-title p {
+    color: var(--text-main) !important;
+  }
+
+  table th,
+  table td,
+  label,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: var(--text-main);
+  }
+
+  input,
+  select,
+  textarea {
+    background: color-mix(in srgb, var(--surface-color) 88%, black 12%) !important;
+    color: var(--text-main) !important;
+    border-color: var(--border-color) !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--text-muted) !important;
+  }
+
+  .premium-table thead,
+  .modern-table thead,
+  .schedule-table thead,
+  table thead tr {
+    background: color-mix(in srgb, var(--surface-color) 84%, black 16%) !important;
+  }
+
+  .premium-table tbody tr,
+  .modern-table tbody tr,
+  .schedule-table tbody tr,
+  table tbody tr {
+    background: transparent !important;
+    border-color: var(--border-color) !important;
+  }
+
+  .premium-table tbody tr:hover,
+  .modern-table tbody tr:hover,
+  .schedule-table tbody tr:hover,
+  table tbody tr:hover {
+    background: color-mix(in srgb, var(--surface-color) 70%, black 30%) !important;
+  }
+
+  .badge,
+  .status-pill,
+  .status-badge,
+  .mini-status,
+  .role-badge,
+  .metric-badge,
+  .wallet-badge {
+    filter: saturate(0.95) brightness(1.05);
+  }
+
+  .btn-action,
+  .btn-update,
+  .btn-view,
+  .btn-delete,
+  .btn-page,
+  .nav-btn,
+  .page-number,
+  .btn-back,
+  .back-btn,
+  .secondary-btn,
+  .btn-cancel {
+    color: var(--text-main) !important;
+    border-color: var(--border-color) !important;
+    background: color-mix(in srgb, var(--surface-color) 90%, black 10%) !important;
+  }
+
+  .btn-action:hover,
+  .btn-update:hover,
+  .btn-view:hover,
+  .btn-delete:hover,
+  .btn-page:hover,
+  .nav-btn:hover,
+  .page-number:hover,
+  .btn-back:hover,
+  .back-btn:hover,
+  .secondary-btn:hover,
+  .btn-cancel:hover {
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+  }
+
+  .loader-box p,
+  .no-data p,
+  .not-found h2,
+  .empty-state h2,
+  .empty-state h3 {
+    color: var(--text-main) !important;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -33,6 +229,10 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+body.rtl {
+  font-family: 'Inter', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -118,3 +318,19 @@ button.btn-primary {
   font-size: 0.875rem;
   text-align: center;
 }
+
+.create-modal { width: min(100%, 700px); background: var(--surface-color); border-radius: 24px; border: 1px solid var(--border-color); box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18); padding: 1.5rem; }
+.create-modal h3 { margin: 0.8rem 0 0.6rem; font-size: 1.5rem; color: var(--text-main); }
+.create-modal p { margin: 0 0 1rem; color: var(--text-muted); line-height: 1.6; }
+.create-message { border-radius: 10px; padding: 0.7rem 0.9rem; margin-bottom: 0.9rem; font-size: 0.85rem; font-weight: 600; }
+.create-message.error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.create-message.success { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.create-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
+.create-form-grid .field { display: flex; flex-direction: column; gap: 0.4rem; }
+.create-form-grid .field span { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.create-form-grid .field input { padding: 0.7rem 0.9rem; border-radius: 10px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--text-main); outline: none; }
+.create-form-grid .field-full { grid-column: 1 / -1; }
+.btn-modal-save { min-width: 128px; border-radius: 12px; padding: 0.8rem 1rem; font-weight: 700; cursor: pointer; background: var(--primary-color); color: #fff; border: 1px solid var(--primary-color); }
+.btn-modal-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 768px) { .create-form-grid { grid-template-columns: 1fr; } }

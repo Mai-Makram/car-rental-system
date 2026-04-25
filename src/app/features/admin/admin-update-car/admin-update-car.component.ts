@@ -3,6 +3,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AdminDataService } from '../services/admin-data.service';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-admin-update-car',
@@ -16,6 +17,7 @@ export class AdminUpdateCarComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly adminService = inject(AdminDataService);
+  private readonly languageService = inject(LanguageService);
 
   readonly isLoading = signal(true);
   readonly isSubmitting = signal(false);
@@ -34,7 +36,7 @@ export class AdminUpdateCarComponent implements OnInit {
     this.carId = this.route.snapshot.paramMap.get('id');
 
     if (!this.carId) {
-      this.errorMessage.set('Car id is missing.');
+      this.errorMessage.set(this.languageService.translate('Car id is missing.'));
       this.isLoading.set(false);
       return;
     }
@@ -60,7 +62,7 @@ export class AdminUpdateCarComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading car for update:', err);
-        this.errorMessage.set(err.error?.message || 'Unable to load car data.');
+        this.errorMessage.set(err.error?.message || this.languageService.translate('Unable to load car data.'));
         this.isLoading.set(false);
       }
     });
@@ -68,7 +70,7 @@ export class AdminUpdateCarComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.carId) {
-      this.errorMessage.set('Car id is missing.');
+      this.errorMessage.set(this.languageService.translate('Car id is missing.'));
       return;
     }
 
@@ -89,12 +91,12 @@ export class AdminUpdateCarComponent implements OnInit {
     this.adminService.updateCar(this.carId, payload).subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        this.successMessage.set('Car updated successfully.');
+        this.successMessage.set(this.languageService.translate('Car updated successfully.'));
         this.router.navigate(['/admin/cars']);
       },
       error: (err) => {
         console.error('Error updating car:', err);
-        this.errorMessage.set(err.error?.message || 'Failed to update car.');
+        this.errorMessage.set(err.error?.message || this.languageService.translate('Failed to update car.'));
         this.isSubmitting.set(false);
       }
     });

@@ -1,15 +1,18 @@
 <div class="admin-container">
   <div class="header-section">
     <div class="title-box">
-      <h1>Car Management</h1>
-      <p>Manage and monitor all available vehicles</p>
+      <h1>{{ 'Car Management' | t }}</h1>
+      <p>{{ 'Manage and monitor all available vehicles' | t }}</p>
     </div>
     <div class="actions-box">
+      <button class="btn-add-car" type="button" (click)="openCreateModal()">
+        {{ 'Add Car' | t }}
+      </button>
       <div class="search-bar">
         <span class="icon">🔍</span>
         <input
           type="text"
-          placeholder="Search by brand or model..."
+          [placeholder]="'Search by brand or model...' | t"
           (input)="onSearchInput($event)">
       </div>
     </div>
@@ -17,25 +20,25 @@
 
   <div class="filters-row">
     <div class="filter-group">
-      <label>Brand</label>
-      <input type="text" placeholder="e.g. Toyota"
+      <label>{{ 'Brand' | t }}</label>
+      <input type="text" [placeholder]="'e.g. Toyota' | t"
         [ngModel]="selectedBrand()"
         (ngModelChange)="selectedBrand.set($event); onFilterChange()">
     </div>
     <div class="filter-group">
-      <label>Min Price</label>
+      <label>{{ 'Min Price' | t }}</label>
       <input type="number" placeholder="0"
         [ngModel]="minPrice()"
         (ngModelChange)="minPrice.set($event); onFilterChange()">
     </div>
     <div class="filter-group">
-      <label>Max Price</label>
+      <label>{{ 'Max Price' | t }}</label>
       <input type="number" placeholder="999"
         [ngModel]="maxPrice()"
         (ngModelChange)="maxPrice.set($event); onFilterChange()">
     </div>
     <div class="filter-group">
-      <label>Per Page</label>
+      <label>{{ 'Per Page' | t }}</label>
       <select [ngModel]="perPage()" (ngModelChange)="perPage.set(+$event); onFilterChange()">
         <option [value]="10">10</option>
         <option [value]="15">15</option>
@@ -47,15 +50,15 @@
 
   <div class="stats-overview">
     <div class="stat-card">
-      <span class="label">Total Cars</span>
+      <span class="label">{{ 'Total Cars' | t }}</span>
       <span class="value">{{ totalCars() }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">Total Pages</span>
+      <span class="label">{{ 'Total Pages' | t }}</span>
       <span class="value">{{ totalPages() }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">Showing Results</span>
+      <span class="label">{{ 'Showing Results' | t }}</span>
       <span class="value">{{ cars().length }}</span>
     </div>
   </div>
@@ -70,12 +73,12 @@
         <table class="premium-table">
           <thead>
             <tr>
-              <th>Car</th>
-              <th>Brand</th>
-              <th>Model</th>
-              <th>Kilometers</th>
-              <th>Price / Day</th>
-              <th>Actions</th>
+              <th>{{ 'Car' | t }}</th>
+              <th>{{ 'Brand' | t }}</th>
+              <th>{{ 'Model' | t }}</th>
+              <th>{{ 'Kilometers' | t }}</th>
+              <th>{{ 'Price / Day' | t }}</th>
+              <th>{{ 'Actions' | t }}</th>
             </tr>
           </thead>
           <tbody>
@@ -92,18 +95,18 @@
                 </td>
                 <td>{{ car.brand }}</td>
                 <td>{{ car.model }}</td>
-                <td>{{ car.kilometers ?? 'N/A' }} km</td>
+                <td>{{ car.kilometers ?? ('N/A' | t) }} km</td>
                 <td>
-                  <span class="price">${{ car.price_per_day }}<small>/day</small></span>
+                  <span class="price">${{ car.price_per_day }}<small>{{ '/day' | t }}</small></span>
                 </td>
                 <td>
                   <div class="action-btns">
                     <button class="btn-view" [routerLink]="['/admin/cars', car.id]">
-                      View
+                      {{ 'View' | t }}
                     </button>
 
                     <button class="btn-update" [routerLink]="['/admin/update-car', car.id]">
-                      Update
+                      {{ 'Update' | t }}
                     </button>
 
                     <button
@@ -111,7 +114,7 @@
                       type="button"
                       [disabled]="deletingCarId() === car.id"
                       (click)="onDeleteCar(car)">
-                      {{ deletingCarId() === car.id ? 'Deleting...' : 'Delete' }}
+                      {{ deletingCarId() === car.id ? ('Deleting...' | t) : ('Delete' | t) }}
                     </button>
                   </div>
                 </td>
@@ -121,8 +124,8 @@
                 <td colspan="6">
                   <div class="empty-state">
                     <span class="empty-icon">🚗</span>
-                    <h3>No cars found</h3>
-                    <p>Try adjusting your search criteria</p>
+                    <h3>{{ 'No cars found' | t }}</h3>
+                    <p>{{ 'Try adjusting your search criteria' | t }}</p>
                   </div>
                 </td>
               </tr>
@@ -133,12 +136,12 @@
 
       <div class="pagination-footer">
         <div class="page-info">
-          Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
-          (Total: <span>{{ totalCars() }}</span> cars)
+          {{ 'Showing page' | t }} <span>{{ currentPage() }}</span> {{ 'of' | t }} <span>{{ totalPages() }}</span>
+          ({{ 'Total:' | t }} <span>{{ totalCars() }}</span> {{ 'cars' | t }})
         </div>
         <div class="pagination-controls">
           <button class="btn-page nav" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
-            Previous
+            {{ 'Previous' | t }}
           </button>
           <div class="numbers">
             @for (page of getPages(); track page) {
@@ -148,7 +151,7 @@
             }
           </div>
           <button class="btn-page nav" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
-            Next
+            {{ 'Next' | t }}
           </button>
         </div>
       </div>
@@ -158,33 +161,107 @@
   @if (carPendingDelete(); as selectedCar) {
     <div class="modal-backdrop" (click)="closeDeleteModal()">
       <div class="delete-modal" (click)="$event.stopPropagation()">
-        <div class="modal-badge">Delete Car</div>
-        <h3>Delete {{ selectedCar.name }}?</h3>
+        <div class="modal-badge">{{ 'Delete Car' | t }}</div>
+        <h3>{{ 'Delete' | t }} {{ selectedCar.name }}?</h3>
         <p>
-          This action will remove the car from the admin list. Make sure you really want to continue.
+          {{ 'This action will remove the car from the admin list. Make sure you really want to continue.' | t }}
         </p>
 
         <div class="modal-summary">
           <div>
-            <span>Brand</span>
+            <span>{{ 'Brand' | t }}</span>
             <strong>{{ selectedCar.brand || '-' }}</strong>
           </div>
           <div>
-            <span>Model</span>
+            <span>{{ 'Model' | t }}</span>
             <strong>{{ selectedCar.model || '-' }}</strong>
           </div>
           <div>
-            <span>Price / Day</span>
+            <span>{{ 'Price / Day' | t }}</span>
             <strong>${{ selectedCar.price_per_day }}</strong>
           </div>
         </div>
 
         <div class="modal-actions">
           <button type="button" class="btn-modal-cancel" [disabled]="!!deletingCarId()" (click)="closeDeleteModal()">
-            Cancel
+            {{ 'Cancel' | t }}
           </button>
           <button type="button" class="btn-modal-delete" [disabled]="!!deletingCarId()" (click)="confirmDeleteCar()">
-            {{ deletingCarId() === selectedCar.id ? 'Deleting...' : 'Delete Car' }}
+            {{ deletingCarId() === selectedCar.id ? ('Deleting...' | t) : ('Delete Car' | t) }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isCreateModalOpen()) {
+    <div class="modal-backdrop" (click)="closeCreateModal()">
+      <div class="create-modal" (click)="$event.stopPropagation()">
+        <div class="modal-badge">{{ 'Add Car' | t }}</div>
+        <h3>{{ 'Create New Car' | t }}</h3>
+        <p>{{ 'Fill in the vehicle information and save it to the fleet.' | t }}</p>
+
+        @if (createCarError()) {
+          <div class="create-message error">{{ createCarError() | t }}</div>
+        }
+
+        @if (createCarSuccess()) {
+          <div class="create-message success">{{ createCarSuccess() | t }}</div>
+        }
+
+        <div class="create-form-grid">
+          <label class="field">
+            <span>{{ 'Name' | t }} *</span>
+            <input
+              type="text"
+              [ngModel]="newCar().name"
+              (ngModelChange)="updateNewCarField('name', $event)"
+              [placeholder]="'e.g. Corolla' | t">
+          </label>
+
+          <label class="field">
+            <span>{{ 'Brand' | t }} *</span>
+            <input
+              type="text"
+              [ngModel]="newCar().brand"
+              (ngModelChange)="updateNewCarField('brand', $event)"
+              [placeholder]="'e.g. Toyota' | t">
+          </label>
+
+          <label class="field">
+            <span>{{ 'Model' | t }} *</span>
+            <input
+              type="text"
+              [ngModel]="newCar().model"
+              (ngModelChange)="updateNewCarField('model', $event)"
+              [placeholder]="'e.g. 2024' | t">
+          </label>
+
+          <label class="field">
+            <span>{{ 'Kilometers' | t }}</span>
+            <input
+              type="number"
+              [ngModel]="newCar().kilometers"
+              (ngModelChange)="updateNewCarField('kilometers', $event)"
+              [placeholder]="'0' | t">
+          </label>
+
+          <label class="field field-full">
+            <span>{{ 'Price / Day' | t }} *</span>
+            <input
+              type="number"
+              [ngModel]="newCar().price_per_day"
+              (ngModelChange)="updateNewCarField('price_per_day', $event)"
+              [placeholder]="'150' | t">
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-cancel" [disabled]="isCreatingCar()" (click)="closeCreateModal()">
+            {{ 'Cancel' | t }}
+          </button>
+          <button type="button" class="btn-modal-save" [disabled]="isCreatingCar()" (click)="createCar()">
+            {{ isCreatingCar() ? ('Saving...' | t) : ('Save Car' | t) }}
           </button>
         </div>
       </div>

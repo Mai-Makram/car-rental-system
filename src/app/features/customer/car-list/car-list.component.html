@@ -1,28 +1,28 @@
 <div class="cars-container">
   <div class="header-section">
     <div class="title-box">
-      <h1>Car Fleet</h1>
-      <p>Manage and browse available cars</p>
+      <h1>{{ 'Car Fleet' | t }}</h1>
+      <p>{{ 'Manage and browse available cars' | t }}</p>
     </div>
 
     <div class="actions-box">
       <div class="filter-box">
-        <input type="text" placeholder="Brand..." (input)="onBrandFilterChange($event)" [value]="brandFilter()">
+        <input type="text" [placeholder]="'Brand...' | t" (input)="onBrandFilterChange($event)" [value]="brandFilter()">
       </div>
 
       <div class="filter-box">
-        <input type="number" placeholder="Min Price..." (input)="onPriceFilterChange($event, 'min')"
+        <input type="number" [placeholder]="'Min Price...' | t" (input)="onPriceFilterChange($event, 'min')"
           [value]="minPrice()">
       </div>
 
       <div class="filter-box">
-        <input type="number" placeholder="Max Price..." (input)="onPriceFilterChange($event, 'max')"
+        <input type="number" [placeholder]="'Max Price...' | t" (input)="onPriceFilterChange($event, 'max')"
           [value]="maxPrice()">
       </div>
 
       <div class="search-box">
         <i class="icon-search"></i>
-        <input type="text" placeholder="Search by name..." (input)="onSearch($event)" [value]="searchQuery()">
+        <input type="text" [placeholder]="'Search by name...' | t" (input)="onSearch($event)" [value]="searchQuery()">
       </div>
     </div>
   </div>
@@ -41,13 +41,13 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Car Name</th>
-          <th>Brand</th>
-          <th>Model</th>
-          <th>Year</th>
-          <th>Price/Day</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th>{{ 'Car Name' | t }}</th>
+          <th>{{ 'Brand' | t }}</th>
+          <th>{{ 'Model' | t }}</th>
+          <th>{{ 'Year' | t }}</th>
+          <th>{{ 'Price/Day' | t }}</th>
+          <th>{{ 'Status' | t }}</th>
+          <th>{{ 'Actions' | t }}</th>
         </tr>
       </thead>
       <tbody>
@@ -61,16 +61,16 @@
           <td><span class="price">${{ car.price_per_day }}</span></td>
           <td>
             <span class="badge" [class.available]="car.status === 'available'">
-              {{ car.status || 'Available' }}
+              {{ (car.status || 'Available') | t }}
             </span>
           </td>
           <td>
             <div class="actions-group">
-              <button class="btn-action" [routerLink]="['/customer/cars', car.id]" title="View Details">
-                View
+              <button class="btn-action" [routerLink]="['/customer/cars', car.id]" [title]="'View Details' | t">
+                {{ 'View' | t }}
               </button>
-              <button class="btn-order-now" [routerLink]="['/customer/cars', car.id, 'order']" title="Rent this car">
-                Order Now
+              <button class="btn-order-now" [routerLink]="['/customer/cars', car.id, 'order']" [title]="'Rent this car' | t">
+                {{ 'Order Now' | t }}
               </button>
             </div>
           </td>
@@ -81,13 +81,13 @@
 
     <!-- Pagination Info & Bar -->
     <div class="pagination-header">
-      <p>Showing page <strong>{{ currentPage() }}</strong> of <strong>{{ totalPages() }}</strong> (Total: <strong>{{
-          totalItems() }}</strong> cars)</p>
+      <p>{{ 'Showing page' | t }} <strong>{{ currentPage() }}</strong> {{ 'of' | t }} <strong>{{ totalPages() }}</strong> ({{ 'Total:' | t }} <strong>{{
+          totalItems() }}</strong> {{ 'cars' | t }})</p>
     </div>
 
     <div class="pagination">
       <button class="nav-btn" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
-        <i class="icon-prev"></i> Previous
+        <i class="icon-prev"></i> {{ 'Previous' | t }}
       </button>
 
       <div class="page-numbers">
@@ -99,12 +99,12 @@
       </div>
 
       <button class="nav-btn" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
-        Next <i class="icon-next"></i>
+        {{ 'Next' | t }} <i class="icon-next"></i>
       </button>
     </div>
     } @else {
     <div class="no-data">
-      <p>No cars found matching your search.</p>
+      <p>{{ 'No cars found matching your search.' | t }}</p>
     </div>
     }
     }

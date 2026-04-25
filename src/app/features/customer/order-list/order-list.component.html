@@ -1,8 +1,8 @@
 <div class="orders-container">
   <div class="header-section">
     <div class="title-box">
-      <h1>My Rental Orders</h1>
-      <p>View and track your car rental history</p>
+      <h1>{{ 'My Rental Orders' | t }}</h1>
+      <p>{{ 'View and track your car rental history' | t }}</p>
     </div>
   </div>
 
@@ -10,7 +10,7 @@
     @if (isLoading()) {
     <div class="loader-box">
       <div class="spinner"></div>
-      <p>Loading your orders...</p>
+      <p>{{ 'Loading your orders...' | t }}</p>
     </div>
     } @else {
     @if (orders().length > 0) {
@@ -19,13 +19,13 @@
         <thead>
           <tr>
             <th>Order #</th>
-            <th>Car Details</th>
-            <th>Delivery Date</th>
-            <th>Receiving Date</th>
-            <th>Duration</th>
-            <th>Total Price</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>{{ 'Car Details' | t }}</th>
+            <th>{{ 'Delivery Date' | t }}</th>
+            <th>{{ 'Receiving Date' | t }}</th>
+            <th>{{ 'Duration' | t }}</th>
+            <th>{{ 'Total Price' | t }}</th>
+            <th>{{ 'Status' | t }}</th>
+            <th>{{ 'Actions' | t }}</th>
           </tr>
         </thead>
         <tbody>
@@ -34,13 +34,13 @@
             <td><span class="id-tag">#{{ order.id }}</span></td>
             <td>
               <div class="car-info">
-                <span class="car-name">{{ order.car?.name || 'Car #' + order.car_id }}</span>
+                <span class="car-name">{{ order.car?.name || (('Car #' | t) + order.car_id) }}</span>
                 <span class="car-model">{{ order.car?.brand }} {{ order.car?.model }}</span>
               </div>
             </td>
             <td><span class="date-tag">{{ order.delivery_date | date:'mediumDate' }}</span></td>
             <td><span class="date-tag">{{ order.receiving_date | date:'mediumDate' }}</span></td>
-            <td><span class="duration-badge">{{ calculateDuration(order.delivery_date, order.receiving_date) }} Days</span></td>
+            <td><span class="duration-badge">{{ calculateDuration(order.delivery_date, order.receiving_date) }} {{ 'Days' | t }}</span></td>
             <td><span class="price-tag">${{ order.total_price }}</span></td>
             <td>
               <span class="status-pill" [ngClass]="getStatusClass(order.status)">
@@ -49,7 +49,7 @@
             </td>
             <td>
               <button class="btn-action" [routerLink]="['/customer/orders', order.id]"
-                title="View Details">Details</button>
+                [title]="'View Details' | t">{{ 'Details' | t }}</button>
             </td>
           </tr>
           }
@@ -60,12 +60,12 @@
     <!-- Pagination Section -->
     <div class="pagination-section">
       <div class="page-info">
-        Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
+        {{ 'Showing page' | t }} <span>{{ currentPage() }}</span> {{ 'of' | t }} <span>{{ totalPages() }}</span>
       </div>
 
       <div class="pagination-controls">
         <button class="page-btn prev" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
-          Previous
+          {{ 'Previous' | t }}
         </button>
 
         <div class="page-numbers">
@@ -78,16 +78,16 @@
 
         <button class="page-btn next" [disabled]="currentPage() === totalPages()"
           (click)="onPageChange(currentPage() + 1)">
-          Next
+          {{ 'Next' | t }}
         </button>
       </div>
     </div>
     } @else {
     <div class="empty-state">
       <div class="icon">📋</div>
-      <h2>No orders yet</h2>
-      <p>You haven't made any rental bookings yet.</p>
-      <button routerLink="/customer/cars" class="btn-primary">Find a Car</button>
+      <h2>{{ 'No orders yet' | t }}</h2>
+      <p>{{ "You haven't made any rental bookings yet." | t }}</p>
+      <button routerLink="/customer/cars" class="btn-primary">{{ 'Find a Car' | t }}</button>
     </div>
     }
     }

@@ -1,6 +1,6 @@
 .main-footer {
-  background: #fdfdfd;
-  border-top: 1px solid #f0f0f0;
+  background: var(--surface-color);
+  border-top: 1px solid var(--border-color);
   padding: 4rem 0 2rem;
   margin-top: 4rem;
 
@@ -18,22 +18,22 @@
 
     .footer-info {
       max-width: 300px;
-      h3 { font-size: 1.5rem; color: #1a1a1a; margin: 0; }
-      p { color: #888; font-size: 0.9rem; line-height: 1.6; }
+      h3 { font-size: 1.5rem; color: var(--text-main); margin: 0; }
+      p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
     }
 
     .footer-links {
       display: flex;
       gap: 2rem;
-      a { color: #666; text-decoration: none; font-size: 0.9rem; font-weight: 500; &:hover { color: #007aff; } }
+      a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; &:hover { color: var(--primary-color); } }
     }
   }
 
   .footer-bottom {
     padding-top: 2rem;
-    border-top: 1px solid #f8f8f8;
+    border-top: 1px solid var(--border-color);
     text-align: center;
-    p { color: #aaa; font-size: 0.85rem; }
+    p { color: var(--text-muted); font-size: 0.85rem; }
   }
 }
 

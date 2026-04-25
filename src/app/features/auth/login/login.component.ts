@@ -3,11 +3,13 @@ import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService, UserRole } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslatePipe],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -20,6 +22,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private languageService = inject(LanguageService);
 
   constructor() {
     this.loginForm = this.fb.group({
@@ -49,7 +52,7 @@ export class LoginComponent {
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set(err.error?.message || 'Invalid email or password. Please try again.');
+          this.errorMessage.set(err.error?.message || this.languageService.translate('error.invalidCredentials'));
         }
       });
     }

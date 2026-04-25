@@ -1,11 +1,11 @@
 <div class="auth-form">
   <div class="role-selector">
-    <button type="button" [class.active]="currentRole() === 'customer'" (click)="setRole('customer')">Customer</button>
-    <button type="button" [class.active]="currentRole() === 'admin'" (click)="setRole('admin')">Admin</button>
+    <button type="button" [class.active]="currentRole() === 'customer'" (click)="setRole('customer')">{{ 'login.customer' | t }}</button>
+    <button type="button" [class.active]="currentRole() === 'admin'" (click)="setRole('admin')">{{ 'login.admin' | t }}</button>
   </div>
 
-  <h2>{{ currentRole() === 'admin' ? 'Admin Portal' : 'Welcome Back' }}</h2>
-  <p class="subtitle">{{ currentRole() === 'admin' ? 'Secure access for car rental management' : 'Please enter your details to sign in' }}</p>
+  <h2>{{ currentRole() === 'admin' ? ('login.adminPortal' | t) : ('login.welcomeBack' | t) }}</h2>
+  <p class="subtitle">{{ currentRole() === 'admin' ? ('login.adminSubtitle' | t) : ('login.customerSubtitle' | t) }}</p>
 
   @if (errorMessage()) {
     <div class="alert-error">
@@ -15,21 +15,21 @@
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="email">Email Address</label>
+      <label for="email">{{ 'login.email' | t }}</label>
       <input type="email" id="email" formControlName="email" placeholder="name@company.com">
       @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
         <div class="field-error">
-          Please enter a valid email.
+          {{ 'login.emailError' | t }}
         </div>
       }
     </div>
 
     <div class="form-group">
-      <label for="password">Password</label>
+      <label for="password">{{ 'login.password' | t }}</label>
       <input type="password" id="password" formControlName="password" placeholder="••••••••">
       @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
         <div class="field-error">
-          Password must be at least 6 characters.
+          {{ 'login.passwordError' | t }}
         </div>
       }
     </div>
@@ -37,15 +37,15 @@
     <div class="form-actions">
       <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || isLoading()">
         @if (!isLoading()) {
-          <span>Sign In</span>
+          <span>{{ 'login.signIn' | t }}</span>
         } @else {
-          <span>Signing in...</span>
+          <span>{{ 'login.signingIn' | t }}</span>
         }
       </button>
     </div>
   </form>
 
   <div class="auth-footer">
-    <p>Don't have an account? <a routerLink="/register">Create an account</a></p>
+    <p>{{ 'login.noAccount' | t }} <a routerLink="/register">{{ 'login.createAccount' | t }}</a></p>
   </div>
 </div>
