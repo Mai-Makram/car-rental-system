@@ -1,0 +1,143 @@
+<div class="admin-container">
+  <div class="header-section">
+    <div class="title-box">
+      <h1>Order Management</h1>
+      <p>Review, update, and manage rental orders from one place.</p>
+    </div>
+    <div class="actions-box">
+      <div class="search-bar">
+        <span class="icon">Search</span>
+        <input
+          type="text"
+          placeholder="Search by order id or customer..."
+          (input)="onSearchInput($event)">
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-row">
+    <div class="filter-group">
+      <label>Status</label>
+      <select [ngModel]="selectedStatus()" (ngModelChange)="selectedStatus.set($event); onFilterChange()">
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Per Page</label>
+      <select [ngModel]="perPage()" (ngModelChange)="perPage.set(+$event); onFilterChange()">
+        <option [value]="10">10</option>
+        <option [value]="15">15</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="stats-overview">
+    <div class="stat-card">
+      <span class="label">Total Orders</span>
+      <span class="value">{{ totalOrders() }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Current Page</span>
+      <span class="value">{{ currentPage() }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Visible Rows</span>
+      <span class="value">{{ orders().length }}</span>
+    </div>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="spinner-box">
+        <div class="spinner"></div>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Customer</th>
+              <th>Car</th>
+              <th>Dates</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of orders(); track order.id) {
+              <tr>
+                <td>
+                  <div class="primary-cell">
+                    <span class="title">#{{ order.id }}</span>
+                    <span class="meta">{{ order.created_at | date:'mediumDate' }}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="primary-cell">
+                    <span class="title">{{ order.user?.name || order.customer?.name || 'Customer' }}</span>
+                    <span class="meta">{{ order.user?.email || order.customer?.email || 'No email' }}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="primary-cell">
+                    <span class="title">{{ order.car?.name || ('Car #' + order.car_id) }}</span>
+                    <span class="meta">{{ order.car?.brand }} {{ order.car?.model }}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="primary-cell">
+                    <span class="title">{{ order.delivery_date | date:'mediumDate' }}</span>
+                    <span class="meta">{{ calculateDuration(order.delivery_date, order.receiving_date) }} days</span>
+                  </div>
+                </td>
+                <td><span class="price-tag">${{ order.total_price || 0 }}</span></td>
+                <td><span class="status-pill" [ngClass]="getStatusClass(order)">{{ getOrderStatus(order) }}</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-view" [routerLink]="['/admin/orders', order.id]">View</button>
+                    <button class="btn-update" [routerLink]="['/admin/update-order', order.id]">Update</button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7">
+                  <div class="empty-state">
+                    <h3>No orders found</h3>
+                    <p>Try changing your search or filters.</p>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination-footer">
+        <div class="page-info">
+          Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
+          (Total: <span>{{ totalOrders() }}</span> orders)
+        </div>
+        <div class="pagination-controls">
+          <button class="btn-page nav" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">Previous</button>
+          <div class="numbers">
+            @for (page of getPages(); track page) {
+              <button class="btn-page num" [class.active]="page === currentPage()" (click)="onPageChange(page)">
+                {{ page }}
+              </button>
+            }
+          </div>
+          <button class="btn-page nav" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">Next</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

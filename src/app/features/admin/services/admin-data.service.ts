@@ -70,4 +70,23 @@ export class AdminDataService {
   deleteCar(id: number | string): Observable<any> {
     return this.apiService.delete(`admin/cars/${id}`);
   }
+
+  getOrders(page: number = 1, perPage: number = 15, search: string = '', status: string = ''): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString());
+
+    if (search) params = params.set('search', search);
+    if (status) params = params.set('status', status);
+
+    return this.apiService.getWithParams('admin/orders', params);
+  }
+
+  getOrderDetails(id: number | string): Observable<any> {
+    return this.apiService.get(`admin/orders/${id}`);
+  }
+
+  updateOrder(id: number | string, payload: Record<string, unknown>): Observable<any> {
+    return this.apiService.put(`admin/orders/${id}`, payload);
+  }
 }

@@ -1,15 +1,17 @@
 import { inject } from '@angular/core';
-import { Router, CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
-export const guestGuard: CanActivateFn = (route, state) => {
+export const guestGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const token = localStorage.getItem('auth_token');
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+  const role = authService.getRole();
 
-  if (!token) {
+  if (!token || !role) {
     return true;
   }
 
-  // إذا كان مسجل دخول بالفعل، يتم توجيهه لصفحة العملاء
-  router.navigate(['/customer/cars']);
+  router.navigate([role === 'admin' ? '/admin/users' : '/customer/cars']);
   return false;
 };

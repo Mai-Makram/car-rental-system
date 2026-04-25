@@ -1,0 +1,75 @@
+<div class="page-shell">
+  <div class="page-head">
+    <button routerLink="/admin/orders" class="back-btn">Back to Orders</button>
+    <div class="title-block">
+      <h1>Update Order</h1>
+      <p>Adjust schedule and order status information.</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="state-card"><div class="spinner"></div></div>
+  } @else {
+    <div class="form-shell">
+      <div class="summary-card">
+        <span class="eyebrow">Order</span>
+        <h2>#{{ order()?.id }}</h2>
+        <p>{{ order()?.user?.name || order()?.customer?.name || 'Customer' }} - {{ order()?.car?.name || ('Car #' + order()?.car_id) }}</p>
+      </div>
+
+      <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="form-card">
+        @if (errorMessage()) {
+          <div class="message error">{{ errorMessage() }}</div>
+        }
+
+        <div class="readonly-grid">
+          <div class="readonly-field">
+            <span>Customer</span>
+            <strong>{{ order()?.user?.name || order()?.customer?.name || '-' }}</strong>
+          </div>
+          <div class="readonly-field">
+            <span>Car</span>
+            <strong>{{ order()?.car?.name || ('Car #' + order()?.car_id) }}</strong>
+          </div>
+          <div class="readonly-field">
+            <span>Delivery Date</span>
+            <strong>{{ order()?.delivery_date | date:'mediumDate' }}</strong>
+          </div>
+          <div class="readonly-field">
+            <span>Receiving Date</span>
+            <strong>{{ order()?.receiving_date | date:'mediumDate' }}</strong>
+          </div>
+          <div class="readonly-field">
+            <span>Order Type</span>
+            <strong>{{ order()?.order_type || '-' }}</strong>
+          </div>
+          <div class="readonly-field">
+            <span>Status</span>
+            <strong>{{ order()?.status || '-' }}</strong>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <h3>Editable Field</h3>
+          <p>Only the payment status can be changed here.</p>
+        </div>
+
+        <label class="field">
+          <span>Payment Status</span>
+          <select formControlName="payment_status">
+            <option value="pending">Pending</option>
+            <option value="success">Success</option>
+            <option value="failed">Failed</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button type="button" class="secondary-btn" routerLink="/admin/orders">Cancel</button>
+          <button type="submit" class="primary-btn" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Saving...' : 'Save Changes' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

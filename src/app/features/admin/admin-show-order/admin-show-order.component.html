@@ -1,0 +1,46 @@
+<div class="page-shell">
+  <div class="back-row">
+    <button routerLink="/admin/orders" class="back-btn">Back to Orders</button>
+    @if (order()) {
+      <button class="update-btn" [routerLink]="['/admin/update-order', order()?.id]">Update Order</button>
+    }
+  </div>
+
+  @if (isLoading()) {
+    <div class="state-card"><div class="spinner"></div></div>
+  } @else if (order()) {
+    <div class="detail-card">
+      <div class="title-block">
+        <h1>Order #{{ order()?.id }}</h1>
+        <p>{{ order()?.created_at | date:'medium' }}</p>
+      </div>
+
+      <div class="detail-grid">
+        <div class="info-card">
+          <h3>Customer</h3>
+          <div class="item"><span>Name</span><strong>{{ order()?.user?.name || order()?.customer?.name || '-' }}</strong></div>
+          <div class="item"><span>Email</span><strong>{{ order()?.user?.email || order()?.customer?.email || '-' }}</strong></div>
+        </div>
+
+        <div class="info-card">
+          <h3>Vehicle</h3>
+          <div class="item"><span>Car</span><strong>{{ order()?.car?.name || ('Car #' + order()?.car_id) }}</strong></div>
+          <div class="item"><span>Brand / Model</span><strong>{{ order()?.car?.brand }} {{ order()?.car?.model }}</strong></div>
+        </div>
+
+        <div class="info-card">
+          <h3>Order Details</h3>
+          <div class="item"><span>Delivery</span><strong>{{ order()?.delivery_date | date:'mediumDate' }}</strong></div>
+          <div class="item"><span>Receiving</span><strong>{{ order()?.receiving_date | date:'mediumDate' }}</strong></div>
+          <div class="item"><span>Order Type</span><strong>{{ order()?.order_type || '-' }}</strong></div>
+          <div class="item"><span>Payment Type</span><strong>{{ order()?.payment_type || order()?.payment_method || '-' }}</strong></div>
+          <div class="item"><span>Status</span><strong>{{ order()?.status || '-' }}</strong></div>
+          <div class="item"><span>Payment Status</span><strong>{{ order()?.payment_status || '-' }}</strong></div>
+          <div class="item"><span>Total</span><strong>${{ order()?.total_price || 0 }}</strong></div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="state-card"><p>Order not found.</p></div>
+  }
+</div>

@@ -15,6 +15,9 @@ import { ShowUserComponent } from './features/admin/show-user/show-user.componen
 import { AdminCarListComponent } from './features/admin/admin-car-list/admin-car-list.component';
 import { AdminShowCarComponent } from './features/admin/admin-show-car/admin-show-car.component';
 import { AdminUpdateCarComponent } from './features/admin/admin-update-car/admin-update-car.component';
+import { AdminOrderListComponent } from './features/admin/admin-order-list/admin-order-list.component';
+import { AdminShowOrderComponent } from './features/admin/admin-show-order/admin-show-order.component';
+import { AdminUpdateOrderComponent } from './features/admin/admin-update-order/admin-update-order.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
@@ -53,7 +56,10 @@ export const routes: Routes = [
       { path: 'users/:id', component: ShowUserComponent },
       { path: 'cars', component: AdminCarListComponent },
       { path: 'cars/:id', component: AdminShowCarComponent },
-      { path: 'update-car/:id', component: AdminUpdateCarComponent }
+      { path: 'update-car/:id', component: AdminUpdateCarComponent },
+      { path: 'orders', component: AdminOrderListComponent },
+      { path: 'orders/:id', component: AdminShowOrderComponent },
+      { path: 'update-order/:id', component: AdminUpdateOrderComponent }
     ]
   },
   { path: '**', redirectTo: '' }

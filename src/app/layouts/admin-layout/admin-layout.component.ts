@@ -12,12 +12,14 @@ import { HeaderComponent, HeaderLink } from '../../core/layout/header/header.com
 export class AdminLayoutComponent {
   readonly adminLinks: HeaderLink[] = [
     { label: 'Users', route: '/admin/users' },
-    { label: 'Cars', route: '/admin/cars' }
+    { label: 'Cars', route: '/admin/cars' },
+    { label: 'Orders', route: '/admin/orders' }
   ];
 
   readonly footerLinks: FooterLink[] = [
     { label: 'Users', route: '/admin/users' },
     { label: 'Cars', route: '/admin/cars' },
+    { label: 'Orders', route: '/admin/orders' },
     { label: 'Support', href: '#' }
   ];
 }

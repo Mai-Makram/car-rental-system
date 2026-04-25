@@ -14,6 +14,8 @@ export class AuthService {
   constructor(private apiService: ApiService) {}
 
   login(credentials: any, role: UserRole): Observable<any> {
+    this.clearAuthStorage();
+
     return this.apiService.post(`${role}/login`, credentials).pipe(
       tap((response: any) => {
         const token = response.token || response.data?.token;
@@ -31,7 +33,9 @@ export class AuthService {
   }
 
   logout(): void {
-    this.apiService.post('customer/logout', {}).subscribe({
+    const role = this.getRole() || 'customer';
+
+    this.apiService.post(`${role}/logout`, {}).subscribe({
       next: () => {
         this.clearAuthStorage();
       },
@@ -54,7 +58,7 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  private clearAuthStorage(): void {
+  clearAuthStorage(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.ROLE_KEY);
   }
