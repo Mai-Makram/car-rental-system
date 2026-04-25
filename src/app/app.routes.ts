@@ -3,6 +3,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { CustomerLayoutComponent } from './layouts/customer-layout/customer-layout.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { CarListComponent } from './features/customer/car-list/car-list.component';
 import { ShowCarComponent } from './features/customer/show-car/show-car.component';
 import { OrderListComponent } from './features/customer/order-list/order-list.component';
@@ -44,6 +45,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
+    component: AdminLayoutComponent,
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'users', pathMatch: 'full' },

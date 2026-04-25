@@ -1,0 +1,19 @@
+<app-header
+  mode="admin"
+  homeRoute="/admin/users"
+  brandTitle="Car"
+  brandAccent="Rental"
+  accountLabel="Admin Account"
+  [navLinks]="adminLinks">
+</app-header>
+
+<main class="content-area">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer
+  title="CarRental Admin"
+  description="Manage users, vehicles, and platform activity from one shared control surface."
+  companyName="CarRental Admin"
+  [links]="footerLinks">
+</app-footer>

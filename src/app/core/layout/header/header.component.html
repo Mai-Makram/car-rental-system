@@ -1,43 +1,43 @@
 <header class="main-header">
   <div class="header-container">
-    <div class="logo-section" routerLink="/customer/cars">
-      <span class="logo-icon">🚗</span>
-      <span class="logo-text">Car<span>Rental</span></span>
+    <div class="logo-section" [routerLink]="homeRoute()">
+      <span class="logo-icon">ًںڑ—</span>
+      <span class="logo-text">{{ brandTitle() }}<span>{{ brandAccent() }}</span></span>
     </div>
 
     <nav class="nav-menu">
-      <a routerLink="/customer/cars" routerLinkActive="active">Browse Cars</a>
-      <a routerLink="/customer/orders" routerLinkActive="active">My Orders</a>
-      <a routerLink="/customer/installments" routerLinkActive="active">Installments</a>
+      @for (link of navLinks(); track link.route) {
+        <a [routerLink]="link.route" routerLinkActive="active">{{ link.label }}</a>
+      }
     </nav>
 
     <div class="user-actions">
-      @if (userProfile()) {
+      @if (hasProfileData()) {
         <div class="user-profile-wrapper">
           <div class="user-profile-trigger" (click)="toggleDropdown()" [class.active]="isDropdownOpen()">
-            <div class="avatar">{{ userProfile()?.name?.charAt(0) || 'U' }}</div>
+            <div class="avatar">{{ userName().charAt(0) || 'U' }}</div>
             <div class="user-info">
-              <span class="user-name">{{ userProfile()?.name }}</span>
-              <span class="user-role">Customer Account</span>
+              <span class="user-name">{{ userName() }}</span>
+              <span class="user-role">{{ accountLabel() }}</span>
             </div>
-            <span class="chevron" [class.open]="isDropdownOpen()">▼</span>
+            <span class="chevron" [class.open]="isDropdownOpen()">â–¼</span>
           </div>
 
           @if (isDropdownOpen()) {
             <div class="profile-dropdown">
               <div class="dropdown-header">
                 <div class="user-main-info">
-                  <p class="email">{{ userProfile()?.email }}</p>
-                  <p class="country">📍 {{ userProfile()?.country || 'N/A' }}</p>
+                  <p class="email">{{ userEmail() }}</p>
+                  <p class="country">ًں“چ {{ userMeta() }}</p>
                 </div>
                 <div class="wallet-status">
-                  <span class="label">Wallet Balance</span>
-                  <span class="amount">${{ userProfile()?.wallet || 0 }}</span>
+                  <span class="label">{{ userExtraLabel() }}</span>
+                  <span class="amount">{{ userExtraValue() }}</span>
                 </div>
               </div>
               <div class="dropdown-body">
                 <button class="logout-item" (click)="logout()">
-                  <span class="icon">🚪</span> Logout
+                  <span class="icon">ًںڑھ</span> Logout
                 </button>
               </div>
             </div>

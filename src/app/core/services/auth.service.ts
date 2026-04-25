@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { Observable, tap } from 'rxjs';
+import { ApiService } from './api.service';
+
 export type UserRole = 'admin' | 'customer';
+
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
   private readonly TOKEN_KEY = 'auth_token';
-  
+  private readonly ROLE_KEY = 'auth_role';
 
   constructor(private apiService: ApiService) {}
 
-  login(credentials: any , role: UserRole): Observable<any> {
+  login(credentials: any, role: UserRole): Observable<any> {
     return this.apiService.post(`${role}/login`, credentials).pipe(
       tap((response: any) => {
-        console.log('Login Response:', response);
         const token = response.token || response.data?.token;
+
         if (token) {
           localStorage.setItem(this.TOKEN_KEY, token);
-          console.log('Token saved successfully');
-        } else {
-          console.warn('No token found in response');
+          localStorage.setItem(this.ROLE_KEY, role);
         }
       })
     );
@@ -34,10 +33,10 @@ export class AuthService {
   logout(): void {
     this.apiService.post('customer/logout', {}).subscribe({
       next: () => {
-        localStorage.removeItem(this.TOKEN_KEY);
+        this.clearAuthStorage();
       },
       error: () => {
-        localStorage.removeItem(this.TOKEN_KEY); // مسح التوكن حتى لو فشل طلب السيرفر
+        this.clearAuthStorage();
       }
     });
   }
@@ -46,7 +45,17 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  getRole(): UserRole | null {
+    const role = localStorage.getItem(this.ROLE_KEY);
+    return role === 'admin' || role === 'customer' ? role : null;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  private clearAuthStorage(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.ROLE_KEY);
   }
 }
