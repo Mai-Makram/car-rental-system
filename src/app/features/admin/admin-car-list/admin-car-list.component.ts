@@ -19,6 +19,8 @@ export class AdminCarListComponent implements OnInit {
 
   cars = signal<any[]>([]);
   isLoading = signal<boolean>(true);
+  deletingCarId = signal<number | string | null>(null);
+  carPendingDelete = signal<any | null>(null);
 
   // الفلاتر والترقيم
   searchTerm = signal<string>('');
@@ -89,5 +91,51 @@ export class AdminCarListComponent implements OnInit {
 
   getPages(): number[] {
     return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
+  }
+
+  onDeleteCar(car: any): void {
+    if (!car?.id) {
+      return;
+    }
+
+    this.carPendingDelete.set(car);
+  }
+
+  closeDeleteModal(): void {
+    if (this.deletingCarId()) {
+      return;
+    }
+
+    this.carPendingDelete.set(null);
+  }
+
+  confirmDeleteCar(): void {
+    const car = this.carPendingDelete();
+
+    if (!car?.id) {
+      return;
+    }
+
+    this.deletingCarId.set(car.id);
+
+    this.adminService.deleteCar(car.id).subscribe({
+      next: () => {
+        this.cars.update((currentCars) => currentCars.filter((currentCar) => currentCar.id !== car.id));
+        this.totalCars.update((total) => Math.max(0, total - 1));
+        this.deletingCarId.set(null);
+        this.carPendingDelete.set(null);
+
+        if (this.cars().length === 0 && this.currentPage() > 1) {
+          this.loadCars(this.currentPage() - 1);
+          return;
+        }
+
+        this.loadCars(this.currentPage());
+      },
+      error: (err) => {
+        console.error('Error deleting car:', err);
+        this.deletingCarId.set(null);
+      }
+    });
   }
 }

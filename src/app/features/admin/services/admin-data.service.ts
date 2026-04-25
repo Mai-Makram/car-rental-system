@@ -66,4 +66,8 @@ export class AdminDataService {
   updateCar(id: number | string, payload: Record<string, unknown>): Observable<any> {
     return this.apiService.put(`admin/cars/${id}`, payload);
   }
+
+  deleteCar(id: number | string): Observable<any> {
+    return this.apiService.delete(`admin/cars/${id}`);
+  }
 }

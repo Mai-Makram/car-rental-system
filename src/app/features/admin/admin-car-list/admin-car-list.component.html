@@ -101,9 +101,17 @@
                     <button class="btn-view" [routerLink]="['/admin/cars', car.id]">
                       View
                     </button>
-                    
+
                     <button class="btn-update" [routerLink]="['/admin/update-car', car.id]">
                       Update
+                    </button>
+
+                    <button
+                      class="btn-delete"
+                      type="button"
+                      [disabled]="deletingCarId() === car.id"
+                      (click)="onDeleteCar(car)">
+                      {{ deletingCarId() === car.id ? 'Deleting...' : 'Delete' }}
                     </button>
                   </div>
                 </td>
@@ -146,4 +154,40 @@
       </div>
     }
   </div>
+
+  @if (carPendingDelete(); as selectedCar) {
+    <div class="modal-backdrop" (click)="closeDeleteModal()">
+      <div class="delete-modal" (click)="$event.stopPropagation()">
+        <div class="modal-badge">Delete Car</div>
+        <h3>Delete {{ selectedCar.name }}?</h3>
+        <p>
+          This action will remove the car from the admin list. Make sure you really want to continue.
+        </p>
+
+        <div class="modal-summary">
+          <div>
+            <span>Brand</span>
+            <strong>{{ selectedCar.brand || '-' }}</strong>
+          </div>
+          <div>
+            <span>Model</span>
+            <strong>{{ selectedCar.model || '-' }}</strong>
+          </div>
+          <div>
+            <span>Price / Day</span>
+            <strong>${{ selectedCar.price_per_day }}</strong>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-cancel" [disabled]="!!deletingCarId()" (click)="closeDeleteModal()">
+            Cancel
+          </button>
+          <button type="button" class="btn-modal-delete" [disabled]="!!deletingCarId()" (click)="confirmDeleteCar()">
+            {{ deletingCarId() === selectedCar.id ? 'Deleting...' : 'Delete Car' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>
