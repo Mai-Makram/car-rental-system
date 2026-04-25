@@ -9,11 +9,14 @@ import { OrderListComponent } from './features/customer/order-list/order-list.co
 import { ShowOrderComponent } from './features/customer/show-order/show-order.component';
 import { CreateOrderComponent } from './features/customer/create-order/create-order.component';
 import { InstallmentListComponent } from './features/customer/installment-list/installment-list.component';
+import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
+    canActivate: [guestGuard],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
@@ -23,6 +26,7 @@ export const routes: Routes = [
   {
     path: 'customer',
     component: CustomerLayoutComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'cars', pathMatch: 'full' },
       { path: 'cars', component: CarListComponent },
