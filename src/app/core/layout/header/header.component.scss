@@ -23,13 +23,30 @@
   gap: 0.8rem;
   cursor: pointer;
 
-  .logo-icon { font-size: 1.8rem; }
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0f172a, #007aff);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    box-shadow: 0 10px 24px rgba(0, 122, 255, 0.18);
+  }
+
   .logo-text {
     font-size: 1.5rem;
     font-weight: 900;
     color: #1a1a1a;
     letter-spacing: -0.5px;
-    span { color: #007aff; }
+
+    span {
+      color: #007aff;
+    }
   }
 }
 
@@ -46,9 +63,13 @@
     position: relative;
     padding: 0.5rem 0;
 
-    &:hover { color: #1a1a1a; }
+    &:hover {
+      color: #1a1a1a;
+    }
+
     &.active {
       color: #007aff;
+
       &::after {
         content: '';
         position: absolute;
@@ -81,7 +102,8 @@
     transition: all 0.3s;
     border: 1px solid transparent;
 
-    &:hover, &.active {
+    &:hover,
+    &.active {
       background: #f8f9fb;
       border-color: #eee;
     }
@@ -103,16 +125,31 @@
     .user-info {
       display: flex;
       flex-direction: column;
-      .user-name { font-weight: 700; color: #1a1a1a; font-size: 0.9rem; line-height: 1.2; }
-      .user-role { font-size: 0.7rem; color: #999; font-weight: 600; text-transform: uppercase; }
+
+      .user-name {
+        font-weight: 700;
+        color: #1a1a1a;
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+
+      .user-role {
+        font-size: 0.7rem;
+        color: #999;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
     }
 
     .chevron {
-      font-size: 0.6rem;
+      font-size: 0.7rem;
       color: #aaa;
       transition: transform 0.3s;
       margin-left: 0.5rem;
-      &.open { transform: rotate(180deg); }
+
+      &.open {
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -123,7 +160,7 @@
     width: 240px;
     background: white;
     border-radius: 20px;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
     border: 1px solid #f0f0f0;
     overflow: hidden;
     animation: dropIn 0.3s ease-out;
@@ -133,11 +170,24 @@
       padding: 1.5rem;
       background: #fafafa;
       border-bottom: 1px solid #f5f5f5;
-      
+
       .user-main-info {
         margin-bottom: 1.2rem;
-        .email { margin: 0; font-size: 0.85rem; color: #444; font-weight: 600; word-break: break-all; }
-        .country { margin: 0.3rem 0 0; font-size: 0.75rem; color: #888; font-weight: 500; }
+
+        .email {
+          margin: 0;
+          font-size: 0.85rem;
+          color: #444;
+          font-weight: 600;
+          word-break: break-all;
+        }
+
+        .country {
+          margin: 0.3rem 0 0;
+          font-size: 0.75rem;
+          color: #888;
+          font-weight: 500;
+        }
       }
 
       .wallet-status {
@@ -149,8 +199,19 @@
         gap: 0.2rem;
         border: 1px solid #007aff10;
 
-        .label { font-size: 0.7rem; color: #007aff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .amount { font-size: 1.2rem; font-weight: 900; color: #1a1a1a; }
+        .label {
+          font-size: 0.7rem;
+          color: #007aff;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .amount {
+          font-size: 1.2rem;
+          font-weight: 900;
+          color: #1a1a1a;
+        }
       }
     }
 
@@ -159,13 +220,12 @@
       display: flex;
       flex-direction: column;
 
-      a, .logout-item {
+      .logout-item {
         display: flex;
         align-items: center;
         gap: 1rem;
         padding: 0.8rem 1rem;
-        text-decoration: none;
-        color: #444;
+        color: #ff3b30;
         font-weight: 600;
         font-size: 0.9rem;
         border-radius: 12px;
@@ -176,15 +236,9 @@
         text-align: left;
         cursor: pointer;
 
-        &:hover { background: #f0f7ff; color: #007aff; }
-        .icon { font-size: 1.1rem; }
-      }
-
-      .divider { height: 1px; background: #f5f5f5; margin: 0.5rem; }
-
-      .logout-item {
-        color: #ff3b30;
-        &:hover { background: #fff5f5; color: #ff3b30; }
+        &:hover {
+          background: #fff5f5;
+        }
       }
     }
   }
@@ -218,12 +272,14 @@
 
   .logo-section {
     .logo-text { font-size: 1.2rem; }
+    .logo-mark { width: 40px; height: 40px; }
   }
 
   .user-actions {
     .user-profile-trigger {
       padding: 0.3rem 0.6rem;
-      .user-info { display: none; } // Hide name on mobile for more space
+
+      .user-info { display: none; }
       .chevron { margin-left: 0.2rem; }
     }
 
@@ -240,7 +296,7 @@
     gap: 1rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
-    
+
     a { font-size: 0.85rem; white-space: nowrap; }
   }
 }
@@ -249,6 +305,7 @@
   .header-container {
     padding: 0 0.8rem;
   }
+
   .nav-menu {
     gap: 0.8rem;
     justify-content: flex-start;

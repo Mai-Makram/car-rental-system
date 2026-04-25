@@ -11,21 +11,20 @@
           <option value="admin">Admin</option>
           <option value="customer">Customer</option>
         </select>
-        
+
         <select [(ngModel)]="selectedCountry" (change)="onFilterChange()">
           <option value="">All Countries</option>
           <option value="Egypt">Egypt</option>
           <option value="Saudi Arabia">Saudi Arabia</option>
           <option value="UAE">UAE</option>
-          <!-- يمكن إضافة المزيد أو جلبهم من السيرفر -->
         </select>
       </div>
 
       <div class="search-bar">
-        <span class="icon">🔍</span>
-        <input 
-          type="text" 
-          placeholder="Search by name or email..." 
+        <span class="icon">ًں”چ</span>
+        <input
+          type="text"
+          placeholder="Search by name or email..."
           (input)="onSearchInput($event)">
       </div>
     </div>
@@ -58,7 +57,10 @@
             <tr>
               <th>User</th>
               <th>Role</th>
-              <th>Joined Date</th>
+              <th>Country</th>
+              <th>Orders</th>
+              <th>Wallet</th>
+              <th>Member Since</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -80,10 +82,22 @@
                     {{ user.role }}
                   </span>
                 </td>
-                <td>{{ user.join_date | date:'mediumDate' }}</td>
                 <td>
-                  <span class="status-indicator" [class]="user.status">
-                    {{ user.status }}
+                  <div class="meta-stack">
+                    <span class="primary">{{ user.country || 'N/A' }}</span>
+                    <span class="secondary">{{ user.phone || 'No phone' }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="metric-badge">{{ user.orders_count || 0 }}</span>
+                </td>
+                <td>
+                  <span class="wallet-badge">${{ user.wallet || 0 }}</span>
+                </td>
+                <td>{{ (user.created_at || user.join_date) | date:'mediumDate' }}</td>
+                <td>
+                  <span class="status-indicator" [class]="getUserStatus(user)">
+                    {{ getUserStatusLabel(user) }}
                   </span>
                 </td>
                 <td>
@@ -96,9 +110,9 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="5">
+                <td colspan="8">
                   <div class="empty-state">
-                    <span class="empty-icon">🔍</span>
+                    <span class="empty-icon">ًں”چ</span>
                     <h3>No users found</h3>
                     <p>Try adjusting your search or filter criteria</p>
                   </div>
@@ -109,7 +123,6 @@
         </table>
       </div>
 
-      <!-- Pagination Footer -->
       <div class="pagination-footer">
         <div class="page-info">
           Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span> (Total: <span>{{ totalUsers() }}</span> users)

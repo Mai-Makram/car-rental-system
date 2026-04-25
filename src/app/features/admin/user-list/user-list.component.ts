@@ -97,4 +97,13 @@ export class UserListComponent implements OnInit, OnDestroy {
     const total = this.totalPages();
     return Array.from({ length: total }, (_, i) => i + 1);
   }
+
+  getUserStatus(user: any): string {
+    return user?.status || 'active';
+  }
+
+  getUserStatusLabel(user: any): string {
+    const status = this.getUserStatus(user);
+    return status.charAt(0).toUpperCase() + status.slice(1);
+  }
 }

@@ -4,6 +4,16 @@
       <h1>Order Management</h1>
       <p>Review, update, and manage rental orders from one place.</p>
     </div>
+    <div class="actions-box">
+      <div class="search-bar">
+        <span class="icon">Search</span>
+        <input
+          type="text"
+          placeholder="Search by order, customer, email, or car..."
+          [ngModel]="searchTerm()"
+          (input)="onSearchInput($event)">
+      </div>
+    </div>
   </div>
 
   <div class="filters-row">
@@ -71,7 +81,7 @@
     </div>
     <div class="stat-card">
       <span class="label">Visible Rows</span>
-      <span class="value">{{ orders().length }}</span>
+      <span class="value">{{ filteredOrders().length }}</span>
     </div>
   </div>
 
@@ -95,7 +105,7 @@
             </tr>
           </thead>
           <tbody>
-            @for (order of orders(); track order.id) {
+            @for (order of filteredOrders(); track order.id) {
               <tr>
                 <td>
                   <div class="primary-cell">

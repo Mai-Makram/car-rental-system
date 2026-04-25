@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -19,6 +19,7 @@ export class AdminOrderListComponent implements OnInit, OnDestroy {
 
   readonly orders = signal<any[]>([]);
   readonly isLoading = signal(true);
+  readonly searchTerm = signal('');
   readonly userId = signal('');
   readonly carId = signal('');
   readonly paymentType = signal('');
@@ -28,6 +29,26 @@ export class AdminOrderListComponent implements OnInit, OnDestroy {
   readonly totalPages = signal(1);
   readonly totalOrders = signal(0);
   readonly perPage = signal(15);
+  readonly filteredOrders = computed(() => {
+    const search = this.searchTerm().trim().toLowerCase();
+
+    if (!search) {
+      return this.orders();
+    }
+
+    return this.orders().filter((order) => {
+      const values = [
+        String(order.id ?? ''),
+        String(order.user?.name || order.customer?.name || ''),
+        String(order.user?.email || order.customer?.email || ''),
+        String(order.car?.name || ''),
+        String(order.car?.brand || ''),
+        String(order.car?.model || '')
+      ].map((value) => value.toLowerCase());
+
+      return values.some((value) => value.includes(search));
+    });
+  });
 
   ngOnInit(): void {
     this.loadOrders();
@@ -77,6 +98,11 @@ export class AdminOrderListComponent implements OnInit, OnDestroy {
 
   onFilterChange(): void {
     this.filterSubject.next();
+  }
+
+  onSearchInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm.set(value);
   }
 
   onPageChange(page: number): void {
