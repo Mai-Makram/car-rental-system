@@ -1,46 +1,55 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService, UserRole } from '../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
+  isLoading = signal<boolean>(false);
+  errorMessage = signal<string>('');
+  currentRole = signal<UserRole>('customer');
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
+  setRole(role: UserRole): void {
+    this.currentRole.set(role);
+    this.errorMessage.set(''); // مسح الأخطاء عند التبديل
+  }
+
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.isLoading = true;
-      this.errorMessage = '';
+      this.isLoading.set(true);
+      this.errorMessage.set('');
       
-      this.authService.login(this.loginForm.value , 'customer').subscribe({
+      this.authService.login(this.loginForm.value, this.currentRole()).subscribe({
         next: (response) => {
-          console.log(response)
-          console.log("ghhhhh")
-          this.isLoading = false;
-          this.router.navigate(['/customer/cars']);
+          this.isLoading.set(false);
+          if (this.currentRole() === 'admin') {
+            this.router.navigate(['/admin/users']);
+          } else {
+            this.router.navigate(['/customer/cars']);
+          }
         },
         error: (err) => {
-          this.isLoading = false;
-          this.errorMessage = err.error?.message || 'Invalid email or password. Please try again.';
+          this.isLoading.set(false);
+          this.errorMessage.set(err.error?.message || 'Invalid email or password. Please try again.');
         }
       });
     }

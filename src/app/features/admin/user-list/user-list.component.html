@@ -1,0 +1,91 @@
+<div class="admin-container">
+  <div class="header-section">
+    <div class="title-box">
+      <h1>User Management</h1>
+      <p>Manage and monitor all platform members</p>
+    </div>
+    <div class="actions-box">
+      <div class="search-bar">
+        <span class="icon">🔍</span>
+        <input type="text" placeholder="Search users by name or email...">
+      </div>
+      <button class="btn-add">
+        <span class="plus">+</span> Add New User
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-overview">
+    <div class="stat-card">
+      <span class="label">Total Users</span>
+      <span class="value">1,284</span>
+      <span class="trend up">↑ 12% this month</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Active Now</span>
+      <span class="value">42</span>
+      <span class="dot"></span>
+    </div>
+    <div class="stat-card">
+      <span class="label">New Registrations</span>
+      <span class="value">156</span>
+    </div>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="skeleton-table">
+        <div class="skeleton-row header"></div>
+        @for (i of [1,2,3,4]; track i) {
+          <div class="skeleton-row"></div>
+        }
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>Joined Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users(); track user.id) {
+              <tr>
+                <td>
+                  <div class="user-info">
+                    <div class="avatar">{{ user.name.charAt(0) }}</div>
+                    <div class="details">
+                      <span class="name">{{ user.name }}</span>
+                      <span class="email">{{ user.email }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="role-badge" [class]="user.role">
+                    {{ user.role }}
+                  </span>
+                </td>
+                <td>{{ user.join_date | date:'mediumDate' }}</td>
+                <td>
+                  <span class="status-indicator" [class]="user.status">
+                    {{ user.status }}
+                  </span>
+                </td>
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-icon" title="Edit User">✏️</button>
+                    <button class="btn-icon delete" title="Suspend User" (click)="toggleUserStatus(user.id)">🚫</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

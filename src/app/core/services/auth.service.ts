@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable, tap } from 'rxjs';
-type UserRole = 'admin' | 'customer';
+export type UserRole = 'admin' | 'customer';
 @Injectable({
   providedIn: 'root'
 })
