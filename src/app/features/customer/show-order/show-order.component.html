@@ -7,77 +7,151 @@
   } @else {
     @if (order()) {
       <div class="order-detail-card">
+        <!-- Header -->
         <div class="card-header">
-          <button routerLink="/customer/orders" class="btn-back">← Back to Orders</button>
-          <div class="order-meta">
-            <h1>Order #{{ order().id }}</h1>
-            <span class="status-badge" [ngClass]="getStatusClass(order().status)">
-              {{ order().status || 'Pending' }}
-            </span>
+          <div class="header-main">
+            <button routerLink="/customer/orders" class="btn-back">
+              <span class="arrow">←</span> Back
+            </button>
+            <div class="title-group">
+              <h1>Order #{{ order().id }}</h1>
+              <span class="order-date">Placed on {{ order().created_at | date:'mediumDate' }}</span>
+            </div>
           </div>
+          <span class="status-badge" [ngClass]="getStatusClass(order().status)">
+            {{ order().status || 'Pending' }}
+          </span>
         </div>
 
-        <div class="detail-sections">
-          <!-- Car Information -->
-          <div class="detail-section car-summary">
-            <div class="section-title">
-              <span class="icon">🚗</span>
-              <h2>Vehicle Information</h2>
-            </div>
-            <div class="info-content">
-              <div class="car-brand">{{ order().car?.brand }}</div>
-              <div class="car-name">{{ order().car?.name || 'Car #' + order().car_id }}</div>
-              <div class="car-model">{{ order().car?.model }} • {{ order().car?.year }}</div>
-            </div>
-          </div>
-
-          <!-- Time & Date -->
-          <div class="detail-section timeline">
-            <div class="section-title">
-              <span class="icon">📅</span>
-              <h2>Rental Timeline</h2>
-            </div>
-            <div class="timeline-content">
-              <div class="time-block">
-                <label>Pickup Date</label>
-                <span>{{ order().start_date | date:'fullDate' }}</span>
+        <div class="detail-grid">
+          <!-- Left Column: Vehicle & Timeline -->
+          <div class="column-main">
+            <!-- Vehicle Card -->
+            <div class="info-card vehicle-card">
+              <div class="card-title">
+                <span class="icon">🚗</span>
+                <h3>Vehicle Details</h3>
               </div>
-              <div class="connector"></div>
-              <div class="time-block">
-                <label>Return Date</label>
-                <span>{{ order().end_date | date:'fullDate' }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Financial Summary -->
-          <div class="detail-section payment">
-            <div class="section-title">
-              <span class="icon">💰</span>
-              <h2>Financial Summary</h2>
-            </div>
-            <div class="payment-content">
-              <div class="price-row">
-                <span>Total Amount Paid</span>
-                <span class="amount">${{ order().total_price }}</span>
-              </div>
-              @if (order().payment_method) {
-                <div class="payment-method">
-                  <span>Payment via {{ order().payment_method }}</span>
+              <div class="card-body">
+                <div class="car-header">
+                  <div class="brand-badge">{{ order().car?.brand }}</div>
+                  <h2>{{ order().car?.name || 'Car #' + order().car_id }}</h2>
                 </div>
-              }
+                <div class="spec-grid">
+                  <div class="spec-item">
+                    <label>Model</label>
+                    <span>{{ order().car?.model }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Card -->
+            <div class="info-card timeline-card">
+              <div class="card-title">
+                <span class="icon">📅</span>
+                <h3>Rental Period</h3>
+              </div>
+              <div class="card-body">
+                <div class="timeline-visual">
+                  <div class="time-point">
+                    <div class="dot pickup"></div>
+                    <div class="time-info">
+                      <label>Pickup</label>
+                      <span class="date">{{ order().delivery_date | date:'fullDate' }}</span>
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <div class="time-point">
+                    <div class="dot return"></div>
+                    <div class="time-info">
+                      <label>Return</label>
+                      <span class="date">{{ order().receiving_date | date:'fullDate' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Installments Table (If applicable) -->
+            @if (order().order_type === 'installments' && order().installments?.length > 0) {
+              <div class="info-card installments-card">
+                <div class="card-title">
+                  <span class="icon">📊</span>
+                  <h3>Installment Schedule</h3>
+                </div>
+                <div class="card-body">
+                  <table class="schedule-table">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>Due Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (inst of order().installments; track inst.id; let i = $index) {
+                        <tr>
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ inst.due_date | date:'mediumDate' }}</td>
+                          <td>${{ inst.amount }}</td>
+                          <td>
+                            <span class="mini-status" [ngClass]="inst.status?.toLowerCase()">
+                              {{ inst.status }}
+                            </span>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Right Column: Financial Summary -->
+          <div class="column-side">
+            <div class="info-card financial-card">
+              <div class="card-title">
+                <span class="icon">💰</span>
+                <h3>Financial Summary</h3>
+              </div>
+              <div class="card-body">
+                <div class="summary-list">
+                  <div class="summary-item">
+                    <label>Order Type</label>
+                    <span class="capitalize">{{ order().order_type }}</span>
+                  </div>
+                  <div class="summary-item">
+                    <label>Payment Method</label>
+                    <span class="capitalize">{{ order().payment_type || order().payment_method }}</span>
+                  </div>
+                  
+                  @if (order().down_payment > 0) {
+                    <div class="summary-item highlight">
+                      <label>Down Payment</label>
+                      <span>${{ order().down_payment }}</span>
+                    </div>
+                  }
+
+                  <div class="divider"></div>
+                  
+                  <div class="summary-item total">
+                    <label>Total Price</label>
+                    <span class="amount">${{ order().total_price }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="card-footer">
-          <button class="btn-print" onclick="window.print()">Print Invoice</button>
-          <button class="btn-support">Contact Support</button>
         </div>
       </div>
     } @else {
       <div class="not-found">
+        <div class="icon">🔍</div>
         <h2>Order not found</h2>
+        <p>We couldn't find the details for this order. Please check the order ID and try again.</p>
         <button routerLink="/customer/orders" class="btn-primary">Back to My Orders</button>
       </div>
     }
