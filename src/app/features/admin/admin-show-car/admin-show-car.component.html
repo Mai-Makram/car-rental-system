@@ -35,20 +35,8 @@
             <span class="value">{{ car().model }}</span>
           </div>
           <div class="detail-item">
-            <span class="label">Year</span>
-            <span class="value">{{ car().year }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Plate Number</span>
-            <span class="value">{{ car().plate_number || 'N/A' }}</span>
-          </div>
-          <div class="detail-item">
             <span class="label">Kilometers</span>
             <span class="value">{{ car().kilometers ?? 'N/A' }} km</span>
-          </div>
-          <div class="detail-item">
-            <span class="label">Color</span>
-            <span class="value">{{ car().color || 'N/A' }}</span>
           </div>
         </div>
       </div>
@@ -62,10 +50,6 @@
           <div class="stat-box">
             <span class="num">${{ car().price_per_day }}</span>
             <span class="txt">Price / Day</span>
-          </div>
-          <div class="stat-box">
-            <span class="num">{{ car().orders_count || 0 }}</span>
-            <span class="txt">Total Orders</span>
           </div>
           <div class="stat-box">
             <span class="num">{{ car().created_at | date:'mediumDate' }}</span>

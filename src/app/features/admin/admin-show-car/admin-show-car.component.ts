@@ -28,6 +28,7 @@ export class AdminShowCarComponent implements OnInit {
     this.isLoading.set(true);
     this.adminService.getCarDetails(id).subscribe({
       next: (response) => {
+        console.log(response);
         this.car.set(response.data || response);
         this.isLoading.set(false);
       },
