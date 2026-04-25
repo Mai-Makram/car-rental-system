@@ -14,14 +14,14 @@ export class AdminDataService {
   /**
    * جلب قائمة المستخدمين مع الترقيم والبحث
    */
-  getUsers(page: number = 1, perPage: number = 15, search: string = ''): Observable<any> {
+  getUsers(page: number = 1, perPage: number = 15, search: string = '', role: string = '', country: string = ''): Observable<any> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('per_page', perPage.toString());
 
-    if (search) {
-      params = params.set('search', search);
-    }
+    if (search) params = params.set('search', search);
+    if (role) params = params.set('role', role);
+    if (country) params = params.set('country', country);
 
     return this.apiService.getWithParams('admin/users', params);
   }
@@ -41,9 +41,18 @@ export class AdminDataService {
   }
 
   /**
-   * حذف مستخدم
+   * جلب قائمة السيارات
    */
-  deleteUser(id: number | string): Observable<any> {
-    return this.apiService.delete(`admin/users/${id}`);
+  getCars(page: number = 1, perPage: number = 15, search: string = '', brand: string = '', minPrice: string = '', maxPrice: string = ''): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString());
+
+    if (search) params = params.set('search', search);
+    if (brand) params = params.set('brand', brand);
+    if (minPrice) params = params.set('min_price', minPrice);
+    if (maxPrice) params = params.set('max_price', maxPrice);
+
+    return this.apiService.getWithParams('admin/cars', params);
   }
 }

@@ -11,6 +11,7 @@ import { CreateOrderComponent } from './features/customer/create-order/create-or
 import { InstallmentListComponent } from './features/customer/installment-list/installment-list.component';
 import { UserListComponent } from './features/admin/user-list/user-list.component';
 import { ShowUserComponent } from './features/admin/show-user/show-user.component';
+import { AdminCarListComponent } from './features/admin/admin-car-list/admin-car-list.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
@@ -41,10 +42,13 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [authGuard], // سنحوله لـ adminGuard لاحقاً
+    canActivate: [authGuard],
     children: [
+      { path: '', redirectTo: 'users', pathMatch: 'full' },
       { path: 'users', component: UserListComponent },
-      { path: 'users/:id', component: ShowUserComponent }
+      { path: 'users/:id', component: ShowUserComponent },
+      { path: 'cars', component: AdminCarListComponent }
     ]
-  }
+  },
+  { path: '**', redirectTo: '' }
 ];

@@ -1,0 +1,147 @@
+<div class="admin-container">
+  <div class="header-section">
+    <div class="title-box">
+      <h1>Car Management</h1>
+      <p>Manage and monitor all available vehicles</p>
+    </div>
+    <div class="actions-box">
+      <div class="search-bar">
+        <span class="icon">🔍</span>
+        <input
+          type="text"
+          placeholder="Search by brand or model..."
+          (input)="onSearchInput($event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Row -->
+  <div class="filters-row">
+    <div class="filter-group">
+      <label>Brand</label>
+      <input type="text" placeholder="e.g. Toyota"
+        [ngModel]="selectedBrand()"
+        (ngModelChange)="selectedBrand.set($event); onFilterChange()">
+    </div>
+    <div class="filter-group">
+      <label>Min Price</label>
+      <input type="number" placeholder="0"
+        [ngModel]="minPrice()"
+        (ngModelChange)="minPrice.set($event); onFilterChange()">
+    </div>
+    <div class="filter-group">
+      <label>Max Price</label>
+      <input type="number" placeholder="999"
+        [ngModel]="maxPrice()"
+        (ngModelChange)="maxPrice.set($event); onFilterChange()">
+    </div>
+    <div class="filter-group">
+      <label>Per Page</label>
+      <select [ngModel]="perPage()" (ngModelChange)="perPage.set(+$event); onFilterChange()">
+        <option [value]="10">10</option>
+        <option [value]="15">15</option>
+        <option [value]="25">25</option>
+        <option [value]="50">50</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="stats-overview">
+    <div class="stat-card">
+      <span class="label">Total Cars</span>
+      <span class="value">{{ totalCars() }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Total Pages</span>
+      <span class="value">{{ totalPages() }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="label">Showing Results</span>
+      <span class="value">{{ cars().length }}</span>
+    </div>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading()) {
+      <div class="spinner-box">
+        <div class="spinner"></div>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="premium-table">
+          <thead>
+            <tr>
+              <th>Car</th>
+              <th>Brand</th>
+              <th>Model</th>
+              <th>Kilometers</th>
+              <th>Price / Day</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (car of cars(); track car.id) {
+              <tr>
+                <td>
+                  <div class="car-info">
+                    <div class="car-icon">🚗</div>
+                    <div class="details">
+                      <span class="name">{{ car.name }}</span>
+                      <span class="plate">{{ car.plate_number }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>{{ car.brand }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.kilometers ?? 'N/A' }} km</td>
+                <td>
+                  <span class="price">${{ car.price_per_day }}<small>/day</small></span>
+                </td>
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-view" [routerLink]="['/admin/cars', car.id]">
+                      View Details
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6">
+                  <div class="empty-state">
+                    <span class="empty-icon">🚗</span>
+                    <h3>No cars found</h3>
+                    <p>Try adjusting your search criteria</p>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="pagination-footer">
+        <div class="page-info">
+          Showing page <span>{{ currentPage() }}</span> of <span>{{ totalPages() }}</span>
+          (Total: <span>{{ totalCars() }}</span> cars)
+        </div>
+        <div class="pagination-controls">
+          <button class="btn-page nav" [disabled]="currentPage() === 1" (click)="onPageChange(currentPage() - 1)">
+            Previous
+          </button>
+          <div class="numbers">
+            @for (page of getPages(); track page) {
+              <button class="btn-page num" [class.active]="page === currentPage()" (click)="onPageChange(page)">
+                {{ page }}
+              </button>
+            }
+          </div>
+          <button class="btn-page nav" [disabled]="currentPage() === totalPages()" (click)="onPageChange(currentPage() + 1)">
+            Next
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

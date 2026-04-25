@@ -1,44 +1,45 @@
-import { Component, OnInit, signal, inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AdminDataService } from '../services/admin-data.service';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-list',
+  selector: 'app-admin-car-list',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+  templateUrl: './admin-car-list.component.html',
+  styleUrl: './admin-car-list.component.scss'
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class AdminCarListComponent implements OnInit {
   private adminService = inject(AdminDataService);
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
-  users = signal<any[]>([]);
+  cars = signal<any[]>([]);
   isLoading = signal<boolean>(true);
-  
+
   // الفلاتر والترقيم
   searchTerm = signal<string>('');
-  selectedRole = signal<string>('');
-  selectedCountry = signal<string>('');
+  selectedBrand = signal<string>('');
+  minPrice = signal<string>('');
+  maxPrice = signal<string>('');
+  perPage = signal<number>(15);
   currentPage = signal<number>(1);
   totalPages = signal<number>(1);
-  totalUsers = signal<number>(0);
+  totalCars = signal<number>(0);
 
   ngOnInit(): void {
-    this.loadUsers();
+    this.loadCars();
 
-    // مراقبة البحث مع debounce
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(term => {
       this.searchTerm.set(term);
-      this.loadUsers(1);
+      this.loadCars(1);
     });
   }
 
@@ -47,24 +48,25 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  loadUsers(page: number = 1): void {
+  loadCars(page: number = 1): void {
     this.isLoading.set(true);
-    this.adminService.getUsers(
-      page, 
-      15, 
-      this.searchTerm(), 
-      this.selectedRole(), 
-      this.selectedCountry()
+    this.adminService.getCars(
+      page,
+      this.perPage(),
+      this.searchTerm(),
+      this.selectedBrand(),
+      this.minPrice(),
+      this.maxPrice()
     ).subscribe({
       next: (response) => {
-        this.users.set(response.data || response);
+        this.cars.set(response.data || response);
         this.currentPage.set(page);
         this.totalPages.set(response.meta?.last_page || response.last_page || 1);
-        this.totalUsers.set(response.meta?.total || response.total || 0);
+        this.totalCars.set(response.meta?.total || response.total || 0);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error loading users:', err);
+        console.error('Error loading cars:', err);
         this.isLoading.set(false);
       }
     });
@@ -76,25 +78,16 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   onFilterChange(): void {
-    this.loadUsers(1);
-  }
-
-
-  toggleUserStatus(userId: number): void {
-    this.adminService.toggleUserStatus(userId).subscribe({
-      next: () => this.loadUsers(this.currentPage()),
-      error: (err) => console.error('Error toggling status:', err)
-    });
+    this.loadCars(1);
   }
 
   onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages()) {
-      this.loadUsers(page);
+      this.loadCars(page);
     }
   }
 
   getPages(): number[] {
-    const total = this.totalPages();
-    return Array.from({ length: total }, (_, i) => i + 1);
+    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
   }
 }

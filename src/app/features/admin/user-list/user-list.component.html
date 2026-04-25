@@ -5,40 +5,51 @@
       <p>Manage and monitor all platform members</p>
     </div>
     <div class="actions-box">
+      <div class="filters">
+        <select [(ngModel)]="selectedRole" (change)="onFilterChange()">
+          <option value="">All Roles</option>
+          <option value="admin">Admin</option>
+          <option value="customer">Customer</option>
+        </select>
+        
+        <select [(ngModel)]="selectedCountry" (change)="onFilterChange()">
+          <option value="">All Countries</option>
+          <option value="Egypt">Egypt</option>
+          <option value="Saudi Arabia">Saudi Arabia</option>
+          <option value="UAE">UAE</option>
+          <!-- يمكن إضافة المزيد أو جلبهم من السيرفر -->
+        </select>
+      </div>
+
       <div class="search-bar">
         <span class="icon">🔍</span>
-        <input type="text" placeholder="Search users by name or email...">
+        <input 
+          type="text" 
+          placeholder="Search by name or email..." 
+          (input)="onSearchInput($event)">
       </div>
-      <button class="btn-add">
-        <span class="plus">+</span> Add New User
-      </button>
     </div>
   </div>
 
   <div class="stats-overview">
     <div class="stat-card">
       <span class="label">Total Users</span>
-      <span class="value">1,284</span>
-      <span class="trend up">↑ 12% this month</span>
+      <span class="value">{{ totalUsers() }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">Active Now</span>
-      <span class="value">42</span>
-      <span class="dot"></span>
+      <span class="label">Total Pages</span>
+      <span class="value">{{ totalPages() }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">New Registrations</span>
-      <span class="value">156</span>
+      <span class="label">Showing Results</span>
+      <span class="value">{{ users().length }}</span>
     </div>
   </div>
 
   <div class="table-card">
     @if (isLoading()) {
-      <div class="skeleton-table">
-        <div class="skeleton-row header"></div>
-        @for (i of [1,2,3,4]; track i) {
-          <div class="skeleton-row"></div>
-        }
+      <div class="spinner-box">
+        <div class="spinner"></div>
       </div>
     } @else {
       <div class="table-responsive">
@@ -80,6 +91,16 @@
                     <button class="btn-view" [routerLink]="['/admin/users', user.id]">
                       View Profile
                     </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5">
+                  <div class="empty-state">
+                    <span class="empty-icon">🔍</span>
+                    <h3>No users found</h3>
+                    <p>Try adjusting your search or filter criteria</p>
                   </div>
                 </td>
               </tr>
